@@ -1,47 +1,21 @@
-package ftn.rbs.madagascar_hub.models;
+package ftn.rbs.madagascar_hub.dtos;
 
-import ftn.rbs.madagascar_hub.enums.UserRole;
-import jakarta.persistence.*;
-
-@Entity
-@Table(name="users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RegisterUserDTO {
     private String name;
     private String surname;
     private String username;
     private String email;
     private String password;
-    private UserRole role;
 
-    public User() {}
+    public RegisterUserDTO() {
+    }
 
-    public User(String name, String surname, String username, String email, String password, UserRole role) {
+    public RegisterUserDTO(String name, String surname, String username, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
-    }
-
-    public User(String name, String surname, String username, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = UserRole.USER;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -82,13 +56,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
     }
 }
