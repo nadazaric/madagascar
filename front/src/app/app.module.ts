@@ -19,6 +19,7 @@ import { FileDetailsDialogComponent } from './file-details-dialog/file-details-d
 import { FileUpdateComponent } from './file-update/file-update.component';
 import { ShareWithOthersFormComponent } from './share-with-others-form/share-with-others-form.component';
 import { FamilyInvitationRedirectionComponent } from './family-invitation-redirection/family-invitation-redirection.component';
+import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { FamilyInvitationRedirectionComponent } from './family-invitation-redire
     FileUpdateComponent,
     ShareWithOthersFormComponent,
     FamilyInvitationRedirectionComponent,
+    ShareDialogComponent,
   ],
   imports: [
     BrowserModule,

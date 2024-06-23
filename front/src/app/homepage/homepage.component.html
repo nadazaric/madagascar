@@ -48,6 +48,10 @@
         <div class="content-div" *ngIf="files.length > 0">
             <div class="card-container">
                 <div class="file-card basic-container" *ngFor="let file of files" (click)="openFileDetails(file)">
+                    
+                    <div class="share-div" (click)="openShareDialog()">
+                        <i class="fa-solid fa-share-nodes" style="font-size: 20px;"></i>
+                    </div>
                     <div class="file-image">
                         <i class="fa-solid fa-file file-icon"></i>
                     </div>

@@ -17,7 +17,7 @@ export interface Credentials{
 export class CognitoService {
 
   private authenticationSubject: BehaviorSubject<any>;
-  public loggedIn: boolean = false;
+  public loggedIn: boolean = false; 
 
   setLoggedIn(is: boolean) : void {
     this.authenticationSubject.next(is);

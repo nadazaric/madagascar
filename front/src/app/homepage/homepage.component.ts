@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FileDetailsDialogComponent } from '../file-details-dialog/file-details-dialog.component';
 import { ShareWithOthersFormComponent } from '../share-with-others-form/share-with-others-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ShareDialogComponent } from '../share-dialog/share-dialog.component';
 
 @Component({
   selector: 'app-homepage',
@@ -39,6 +40,10 @@ export class HomepageComponent implements OnInit {
     //   this.setPath(value);
     //   this.readContent();
     // })
+  }
+
+  openShareDialog(){
+    this.dialog.open(ShareDialogComponent);
   }
 
   setPath(value: string) {
