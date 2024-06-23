@@ -18,6 +18,23 @@ services:
     ports:
       - "8500:8500"
       - "8600:8600/udp"
+      
+  leveldb-server:
+    image: cardial/leveldbreader:latest
+    container_name: leveldb
+    ports:
+      - "2012:2012"
+    volumes:
+      - leveldb:/opt/app/db
+    environment:
+      leveldb_path: /opt/app/db
+      leveldb_host: 0.0.0.0
+      leveldb_port: 2012
+      leveldb_keyEncoding: utf8
+      leveldb_valueEncoding: json
+      leveldb_defaultTTL: 0
+      leveldb_checkFrequency: 50
 
 volumes:
   postgres_data:
+  leveldb:
