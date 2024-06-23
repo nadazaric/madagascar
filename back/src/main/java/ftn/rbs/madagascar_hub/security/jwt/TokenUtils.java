@@ -20,7 +20,7 @@ public class TokenUtils {
 	@Value("Certificate_manager")
 	private String APP_NAME;
 
-	@Value("somesecret")
+	@Value("${jwt.secret}")
 	public String SECRET;
 
 	@Value("1800000")

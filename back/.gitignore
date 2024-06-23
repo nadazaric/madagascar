@@ -11,6 +11,7 @@ application-local.properties
 *.iws
 *.iml
 *.ipr
+*.properties
 
 ## VS Code
 .vscode/
