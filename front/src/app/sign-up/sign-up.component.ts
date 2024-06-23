@@ -1,11 +1,9 @@
-import { LambdaService } from './../services/lambda.service';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import { Credentials, CognitoService } from '../services/cognito.service';
-import { dateAheadOfTodayValidator, hasLetterAndDigitValidator, nameRegexValidator, passwordRegexValidator, surnameRegexValidator, usernameRegexValidator } from '../validators/user/userValidator';
+import { hasLetterAndDigitValidator, nameRegexValidator, surnameRegexValidator, usernameRegexValidator } from '../validators/user/userValidator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../services/user.service';
 
 export interface Account{
   name: string,
@@ -25,16 +23,13 @@ export class SignUpComponent {
 
   loading: boolean;
   isConfirm: boolean;
-  credentials: Credentials;
   isVisible: boolean = false;
 
   constructor(private router: Router,
-              private cognitoService: CognitoService,
-              private lambdaService: LambdaService,
-              private snackBar: MatSnackBar) {
+              private userService: UserService,
+              private snackBar: MatSnackBar){
     this.loading = false;
     this.isConfirm = false;
-    this.credentials = {} as Credentials;
   }
 
   registerForm = new FormGroup({
@@ -49,7 +44,7 @@ export class SignUpComponent {
     if (this.registerForm.valid) {
       this.loading = true;
 
-      this.lambdaSignUp();
+      this.singUp();
     } else{
       this.snackBar.open("Check your inputs again!", "", {
         duration: 2700, panelClass: ['snack-bar-front-error']
@@ -57,7 +52,7 @@ export class SignUpComponent {
     }
   }
 
-  lambdaSignUp() {
+  singUp() {
     let creds = {
       name: this.registerForm.value.name!,
       surname: this.registerForm.value.surname!,
@@ -66,74 +61,18 @@ export class SignUpComponent {
       password: this.registerForm.value.password!,
     }
 
-    this.lambdaService.register(creds).subscribe({
-      next: (data) => {
-        console.log("uspeo");
-        this.loading = false;
-        this.isConfirm = true;
-        this.snackBar.open(data, "", {
+    this.userService.register(creds).subscribe({
+      next: () => {
+        this.snackBar.open("Success", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
         this.router.navigate(['login'])
       }, error: (err) => {
-        console.log(err);
         this.snackBar.open(err.message, "", {
           duration: 2700, panelClass: ['snack-bar-back-error']
         });
         this.loading = false;
       }
-    });
+    })
   }
-
-  // used in the first version, problem with foce password change so went to the lambda approach
-  directCognitoSignUp() {
-    this.cognitoService.signUp(
-      {
-        name: this.registerForm.value.name!,
-        surname: this.registerForm.value.surname!,
-        username: this.registerForm.value.username!,
-        email: this.registerForm.value.email!,
-        password: this.registerForm.value.password!,
-      }
-    )
-    .subscribe({
-      next: (data) => {
-        console.log("uspeo");
-        this.loading = false;
-        this.isConfirm = true;
-      }, error: (err) => {
-        console.log(err);
-        this.snackBar.open(err.error, "", {
-          duration: 2000, panelClass: ['snack-bar-back-error']
-        });
-        this.loading = false;
-      }
-    });
-  }
-
-  familyMemberSignUp() {
-    let signUpCreds = {
-      name: this.registerForm.value.name!,
-      surname: this.registerForm.value.surname!,
-      username: this.registerForm.value.username!,
-      email: this.registerForm.value.email!,
-      password: this.registerForm.value.password!,
-    }
-
-    this.lambdaService.registerFamilyMember(signUpCreds).subscribe({
-      next: (value) => {
-        console.log(value);
-        this.snackBar.open("Your request to register as family member successfully sent. Check your email for request feedback shortly.", "", {
-          duration: 2700, panelClass: ['snack-bar-success']
-        });
-      },
-      error: (err) => {
-        console.log(err);
-        this.snackBar.open(err.error, "", {
-          duration: 2700, panelClass: ['snack-bar-back-error']
-        });
-      }
-    });
-  }
-
 }
