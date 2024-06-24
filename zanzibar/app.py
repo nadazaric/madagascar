@@ -53,12 +53,12 @@ def delete_acl_entry():
 @app.route('/api-key', methods=['GET'])
 def get_app_key():
     app_key = generate_api_key()
-    return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 200
+    return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 201
 
 @app.route('/dummy', methods=['GET'])
 @require_api_key
 def dummy():
-    return jsonify({'message': 'Success.'}), 201
+    return jsonify({'message': 'Success.'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
