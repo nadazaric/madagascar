@@ -1,12 +1,45 @@
 import plyvel
+import os
 
 from dtos import AclEntryDTO
 
-def add(entry: AclEntryDTO) -> None:
-    pass
+db_path = './data'
 
-def check(entry: AclEntryDTO) -> None:
-    pass
+def _get_key(entry: AclEntryDTO) -> bytes:
+    return f"{entry.object}#{entry.relation}@{entry.user}".encode()
+
+def add(entry: AclEntryDTO) -> None:
+    #TODO: namespace based validation
+
+    key = _get_key(entry)
+    value = b""  
+
+    try:
+        db = plyvel.DB('tmp', create_if_missing=True)
+        db.put(key, value)
+    finally:
+        if db is not None:
+            db.close()
+
+
+def check(entry: AclEntryDTO) -> bool:
+    #TODO: implement
+
+    key = _get_key(entry)
+
+    try:
+        db = plyvel.DB('tmp', create_if_missing=True)
+        return db.get(key) is not None
+    finally:
+        if db is not None:
+            db.close()
 
 def delete(entry: AclEntryDTO) -> None:
-    pass
+    key = _get_key(entry)
+
+    try:
+        db = plyvel.DB('tmp', create_if_missing=True)
+        db.delete(key)
+    finally:
+        if db is not None:
+            db.close()
