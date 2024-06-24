@@ -30,7 +30,10 @@ def get(namespace) -> Dict[str, object]:
         raise Exception("Server error!")
     
 # relations is value for key-value pair in consul db
-def get_roles_for_role(role, relations):
+def get_roles_for_role(role, aclObject):
+    namespace_name = extract_namespace_name(aclObject)
+    relations = get(namespace_name)
+
     def resolve_role(current_role, resolved_roles):
         if current_role in resolved_roles:
             return
@@ -43,10 +46,13 @@ def get_roles_for_role(role, relations):
 
     resolved_roles = set()
     resolve_role(role, resolved_roles)
+
+    resolved_roles.discard(role)
+
     return resolved_roles
 
 def validate_namespace_acl(acl: AclEntryDTO) -> bool:
-    namespace_name = acl.object.split(":")[0]
+    namespace_name = extract_namespace_name(acl.object)
     namespace = get(namespace_name)
 
     if not namespace:
@@ -56,3 +62,6 @@ def validate_namespace_acl(acl: AclEntryDTO) -> bool:
         return False
     
     return True
+
+def extract_namespace_name(aclObject: str) -> str:
+    return aclObject.split(":")[0]

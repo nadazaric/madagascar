@@ -45,10 +45,10 @@ def add_acl_entry():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/acl/check', methods=['GET'])
+@app.route('/acl/check', methods=['POST'])
 def check_acl_entry():
     data = request.json
-
+    
     try:
         acl_entry = AclEntryDTO.from_dict(data)
     except KeyError:

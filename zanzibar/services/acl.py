@@ -1,6 +1,6 @@
 import plyvel
-from services.namespace import validate_namespace_acl
-import os
+from services.namespace import validate_namespace_acl, get_roles_for_role, get
+import copy
 
 from dtos import AclEntryDTO
 
@@ -23,7 +23,6 @@ def add(entry: AclEntryDTO) -> None:
         if db is not None:
             db.close()
 
-
 def check(entry: AclEntryDTO) -> bool:
     #TODO: implement
 
@@ -31,10 +30,28 @@ def check(entry: AclEntryDTO) -> bool:
 
     try:
         db = plyvel.DB('tmp', create_if_missing=True)
-        return db.get(key) is not None
+        if db.get(key) is not None:
+            return True
     finally:
         if db is not None:
             db.close()
+
+    parent_roles = get_roles_for_role(entry.relation, entry.object)
+    print(parent_roles)
+    
+    try:
+        db = plyvel.DB('tmp', create_if_missing=True)
+        for role in parent_roles:
+            entry.relation = role
+            key = _get_key(entry)
+            
+            if db.get(key) is not None:
+                return True
+    finally:
+        if db is not None:
+            db.close()
+    
+    return False
 
 def delete(entry: AclEntryDTO) -> None:
     key = _get_key(entry)

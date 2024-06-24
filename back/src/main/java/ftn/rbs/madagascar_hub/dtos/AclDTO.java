@@ -1,11 +1,11 @@
 package ftn.rbs.madagascar_hub.dtos;
 
-public class AddAclDTO {
+public class AclDTO {
     private String user;
     private String relation;
     private String object;
-    public AddAclDTO() {}
-    public AddAclDTO(String user, String filename, String role) {
+    public AclDTO() {}
+    public AclDTO(String user, String filename, String role) {
         this.user = user;
         this.relation = role;
         this.object = filename;
