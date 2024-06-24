@@ -1,0 +1,2 @@
+LEVELDB_NAME = "levelDB"
+LEVELDB_PREFIX_API_KEY = b'api-key-'

@@ -2,6 +2,7 @@ import secrets
 import hashlib
 import plyvel
 from flask import request, jsonify
+from values import LEVELDB_NAME, LEVELDB_PREFIX_API_KEY
 
 db = None
 
@@ -9,8 +10,9 @@ def generate_api_key():
     global db
     api_key = secrets.token_hex()
     try:
-        db = plyvel.DB('api-keys', create_if_missing=True)
-        db.put(hash_api_key(api_key).encode(), b'')
+        db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
+        prefixed_db = db.prefixed_db(LEVELDB_PREFIX_API_KEY)
+        prefixed_db.put(hash_api_key(api_key).encode(), b'')
     finally:
         if db is not None:
             db.close()
@@ -26,8 +28,9 @@ def require_api_key(func):
         if not api_key: return jsonify({"message": "Invalid or missing API key"}), 401
 
         try:
-            db = plyvel.DB('api-keys', create_if_missing=True)
-            value = db.get(hash_api_key(api_key).encode())
+            db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
+            prefixed_db = db.prefixed_db(LEVELDB_PREFIX_API_KEY)
+            value = prefixed_db.get(hash_api_key(api_key).encode())
             if value is None: return jsonify({"message": "Invalid or missing API key"}), 401
         finally:
             if db is not None:
