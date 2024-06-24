@@ -24,8 +24,6 @@ def add(entry: AclEntryDTO) -> None:
             db.close()
 
 def check(entry: AclEntryDTO) -> bool:
-    #TODO: implement
-
     key = _get_key(entry)
 
     try:
