@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -83,7 +84,7 @@ public class WebSecurityConfig {
 								.requestMatchers("/api/user/resetPassword").permitAll()
 								.requestMatchers("api/certificate/validate-upload").permitAll()
 								.requestMatchers("/api/user/rotatePassword").permitAll()
-								.requestMatchers("/api/user/**").permitAll()
+								.requestMatchers("/api/**").permitAll()
 								.anyRequest().authenticated()
 				)
 				.csrf(csrf -> csrf.disable())
@@ -121,6 +122,11 @@ public class WebSecurityConfig {
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		// Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
 		return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/user/login").requestMatchers(HttpMethod.POST, "/api/user");
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 }
