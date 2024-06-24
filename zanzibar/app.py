@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from dtos import AclEntryDTO
 
 import services.acl as acl
-from services.api_key import generate_api_key
+from services.api_key import generate_api_key, require_api_key
 
 app = Flask(__name__)
 
@@ -54,6 +54,11 @@ def delete_acl_entry():
 def get_app_key():
     app_key = generate_api_key()
     return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 200
+
+@app.route('/dummy', methods=['GET'])
+@require_api_key
+def dummy():
+    return jsonify({'message': 'Success.'}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
