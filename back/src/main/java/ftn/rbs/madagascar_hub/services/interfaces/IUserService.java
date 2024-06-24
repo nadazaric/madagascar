@@ -4,4 +4,5 @@ import ftn.rbs.madagascar_hub.models.User;
 
 public interface IUserService {
     User getUserByEmail(String email);
+    User getCurrentUser();
 }

@@ -5,6 +5,8 @@ import ftn.rbs.madagascar_hub.repositories.UserRepository;
 import ftn.rbs.madagascar_hub.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,5 +35,11 @@ public class UserService implements IUserService, UserDetailsService {
     public User getUserByEmail(String email) {
         User user = allUsers.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist!"));
         return user;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return allUsers.findByEmail(auth.getName()).orElse(null);
     }
 }

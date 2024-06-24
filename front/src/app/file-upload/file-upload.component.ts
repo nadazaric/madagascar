@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { UtilService } from '../services/util.service';
 import { LambdaService } from '../services/lambda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -25,7 +26,7 @@ export class FileUploadComponent implements OnInit {
   right_part_visible: boolean = false;
 
   constructor(private http: HttpClient, private utilService: UtilService,
-    private lambdaService: LambdaService,
+    private fileService: FileService,
     private snackBar: MatSnackBar) { }
 
   profileImgPath: string = "";
@@ -66,6 +67,7 @@ export class FileUploadComponent implements OnInit {
     const options: any = {
       responseType: 'json',
     };
+    
     return this.http.post<any>(environment.apiGateway + "/file?filename=" + this.path + this.form.value.name, this.profileImgPath, options);
   }
 
@@ -89,17 +91,17 @@ export class FileUploadComponent implements OnInit {
 
   createFile() {
     let o = {
-      id: this.path + this.form.value.name,
       name: this.form.value.name,
       lastModified:  new Date().toISOString().split('T')[0],
-      type: this.file.type, 
+      // type: this.file.type, 
       size: this.file.size,
       createdAt: new Date().toISOString().split('T')[0],
       description: this.form.value.description,
-      tags: this.tags,
+      // tags: this.tags,
       content: this.profileImgPath
     }
-    this.lambdaService.createFile(o).subscribe({
+    console.log(o);
+    this.fileService.createFile(o).subscribe({
       next: (value: any)  => {
         console.log(value);
         this.snackBar.open("Successfully created file!", "", {
