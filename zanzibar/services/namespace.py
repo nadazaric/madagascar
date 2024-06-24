@@ -1,6 +1,8 @@
+from typing import Dict
 import consul
 import json
 from functools import lru_cache
+from dtos import AclEntryDTO
 import logging
 
 # Initialize the Consul client
@@ -18,13 +20,11 @@ def add(data):
     get.cache_clear()
 
 @lru_cache(maxsize=3)
-def get(namespace):
+def get(namespace) -> Dict[str, object]:
     try:
         index, data = client.kv.get(namespace)
-        logging.info(f"Fetching data from Consul for namespace: {namespace}")
         if not data:
-            raise KeyError("There is no namespace!")
-        
+            return None
         return json.loads(data['Value'].decode('utf-8'))
     except Exception as e:
         raise Exception("Server error!")
@@ -44,3 +44,15 @@ def get_roles_for_role(role, relations):
     resolved_roles = set()
     resolve_role(role, resolved_roles)
     return resolved_roles
+
+def validate_namespace_acl(acl: AclEntryDTO) -> bool:
+    namespace_name = acl.object.split(":")[0]
+    namespace = get(namespace_name)
+
+    if not namespace:
+        return False
+    
+    if acl.relation not in namespace.keys():
+        return False
+    
+    return True

@@ -1,4 +1,5 @@
 import plyvel
+from services.namespace import validate_namespace_acl
 import os
 
 from dtos import AclEntryDTO
@@ -9,7 +10,8 @@ def _get_key(entry: AclEntryDTO) -> bytes:
     return f"{entry.object}#{entry.relation}@{entry.user}".encode()
 
 def add(entry: AclEntryDTO) -> None:
-    #TODO: namespace based validation
+    if not validate_namespace_acl(entry):
+        raise Exception("Acl entry not valid.")
 
     key = _get_key(entry)
     value = b""  
