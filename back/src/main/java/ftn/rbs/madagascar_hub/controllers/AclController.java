@@ -16,8 +16,6 @@ public class AclController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> add(@Valid @RequestBody AclDTO dto) {
-        //TODO: add validation check based on namespace config
-
         String url = "http://localhost:4000/acl";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -29,8 +27,6 @@ public class AclController {
 
     @PostMapping(path = "/check", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> check(@Valid @RequestBody AclDTO dto) {
-        //TODO: add validation check based on namespace config
-
         String url = "http://localhost:4000/acl/check";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -42,8 +38,6 @@ public class AclController {
 
     @PutMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> delete(@Valid @RequestBody AclDTO dto) {
-        //TODO: add validation check based on namespace config
-
         String url = "http://localhost:4000/acl";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -55,8 +49,6 @@ public class AclController {
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> update(@Valid @RequestBody AclDTO dto) {
-        //TODO: add validation check based on namespace config
-
         String url = "http://localhost:4000/acl";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
