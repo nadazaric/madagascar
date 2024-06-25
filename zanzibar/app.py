@@ -1,11 +1,17 @@
 from flask import Flask, request, jsonify
 from dtos import AclEntryDTO
 from services import namespace as namespace_service
-
+from flask_limiter import Limiter
 import services.acl as acl
 from services.api_key import generate_api_key, require_api_key
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per minute"]
+)
 
 @app.route('/healthcheck', methods=['GET'])
 @require_api_key
@@ -98,6 +104,10 @@ def delete_acl_entry():
 def get_app_key():
     app_key = generate_api_key()
     return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 201
+
+@app.route('/dummy', methods=['GET'])
+def dummy():
+    return jsonify({'message': 'Success.'}), 201
 
 
 if __name__ == '__main__':
