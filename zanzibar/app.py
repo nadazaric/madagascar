@@ -8,10 +8,12 @@ from services.api_key import generate_api_key, require_api_key
 app = Flask(__name__)
 
 @app.route('/healthcheck', methods=['GET'])
+@require_api_key
 def get_books():
     return "Hello from Madagascar!"
 
 @app.route('/namespace', methods=['POST'])
+@require_api_key
 def add_namespace():
     data = request.json
     try:
@@ -21,6 +23,7 @@ def add_namespace():
         return jsonify({'Bad request!'}), 400
 
 @app.route('/namespace', methods=['GET'])
+@require_api_key
 def get_config():
     namespace = request.args.get('namespace')
     try:
@@ -33,6 +36,7 @@ def get_config():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/acl', methods=['POST'])
+@require_api_key
 def add_acl_entry():
     data = request.json
 
@@ -47,6 +51,7 @@ def add_acl_entry():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/acl', methods=['PUT'])
+@require_api_key
 def update_acl_entry():
     data = request.json
 
@@ -61,6 +66,7 @@ def update_acl_entry():
         return jsonify({'error': str(e)}), 500
 
 @app.route('/acl/check', methods=['POST'])
+@require_api_key
 def check_acl_entry():
     data = request.json
     
@@ -74,6 +80,7 @@ def check_acl_entry():
     return jsonify({'authorized': response}), 200
 
 @app.route('/acl', methods=['DELETE'])
+@require_api_key
 def delete_acl_entry():
     data = request.json
 

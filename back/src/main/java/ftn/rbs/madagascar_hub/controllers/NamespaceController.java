@@ -9,6 +9,7 @@ import ftn.rbs.madagascar_hub.security.jwt.IJWTTokenService;
 import ftn.rbs.madagascar_hub.security.jwt.TokenUtils;
 import ftn.rbs.madagascar_hub.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +27,12 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/api/namespace")
 public class NamespaceController {
 
+    @Value("${madagascar.apikey.field}")
+    public String madagascarApiKeyField;
+
+    @Value("${madagascar.apikey}")
+    public String madagascarApiKey;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -34,6 +41,7 @@ public class NamespaceController {
         String url = "http://localhost:4000/namespace";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set(madagascarApiKeyField, madagascarApiKey);
 
         HttpEntity<AddNamespaceDTO> requestEntity = new HttpEntity<>(namespaceDTO, headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
@@ -45,7 +53,12 @@ public class NamespaceController {
     public ResponseEntity<?> get(@RequestParam String namespace) {
         String url = "http://localhost:4000/namespace?namespace=" + namespace;
         System.out.println(url);
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(madagascarApiKeyField, madagascarApiKey);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
