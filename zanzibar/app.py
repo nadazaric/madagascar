@@ -10,8 +10,12 @@ app = Flask(__name__)
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["200 per minute"]
+    default_limits=["100 per minute"]
 )
+
+@app.errorhandler(429)
+def too_many_requests(e):
+    return jsonify({"message": "Rate limit exceeded. Please try again later."}), 429
 
 @app.route('/healthcheck', methods=['GET'])
 @require_api_key
@@ -104,11 +108,6 @@ def delete_acl_entry():
 def get_app_key():
     app_key = generate_api_key()
     return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 201
-
-@app.route('/dummy', methods=['GET'])
-def dummy():
-    return jsonify({'message': 'Success.'}), 201
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=4000, debug=True)
