@@ -3,6 +3,7 @@ from dtos import AclEntryDTO
 from services import namespace as namespace_service
 
 import services.acl as acl
+from services.api_key import generate_api_key, require_api_key
 
 app = Flask(__name__)
 
@@ -84,6 +85,13 @@ def delete_acl_entry():
     acl.delete(acl_entry)
 
     return jsonify({'message': 'ACL entry deleted successfully', 'entry': acl_entry.to_dict()}), 200
+
+
+@app.route('/api-key', methods=['GET'])
+def get_app_key():
+    app_key = generate_api_key()
+    return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 201
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=4000, debug=True)
