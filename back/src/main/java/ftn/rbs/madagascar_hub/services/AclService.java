@@ -22,6 +22,12 @@ public class AclService implements IAclService {
     @Value("${zanzibar.namespace}")
     public String zanzibarNamespace;
 
+    @Value("${madagascar.apikey.field}")
+    public String madagascarApiKeyField;
+
+    @Value("${madagascar.apikey}")
+    public String madagascarApiKey;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -55,6 +61,7 @@ public class AclService implements IAclService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set(madagascarApiKeyField, madagascarApiKey);
 
         HttpEntity<AclDTO> requestEntity = new HttpEntity<>(dto, headers);
         return restTemplate.exchange(url, httpMethod, requestEntity, String.class);
