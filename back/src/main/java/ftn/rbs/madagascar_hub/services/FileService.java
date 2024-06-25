@@ -8,6 +8,8 @@ import ftn.rbs.madagascar_hub.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FileService implements IFileService {
 
@@ -24,5 +26,15 @@ public class FileService implements IFileService {
         file.setContent(dto.getContent());
         allFiles.save(file);
         allFiles.flush();
+    }
+
+    @Override
+    public File getFile(Long id) {
+        Optional<File> foundFile = allFiles.findById(id);
+
+        if (foundFile.isEmpty())
+            throw new RuntimeException("File doesn't exist");
+
+        return foundFile.get();
     }
 }
