@@ -1,6 +1,7 @@
 package ftn.rbs.madagascar_hub.controllers;
 
 import ftn.rbs.madagascar_hub.dtos.CredentialsDTO;
+import ftn.rbs.madagascar_hub.dtos.RegisterUserDTO;
 import ftn.rbs.madagascar_hub.dtos.TokenDTO;
 import ftn.rbs.madagascar_hub.models.User;
 import ftn.rbs.madagascar_hub.security.jwt.IJWTTokenService;
@@ -64,5 +65,11 @@ public class UserController {
         this.tokenService.createToken(jwt);
 
         return new ResponseEntity<TokenDTO>(new TokenDTO(jwt, jwt), HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> register(@Valid @RequestBody RegisterUserDTO registerUser) {
+        userService.registerUser(registerUser);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
