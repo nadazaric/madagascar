@@ -12,6 +12,9 @@ application-local.properties
 *.iml
 *.ipr
 *.properties
+**.properties
+application.properties
+.src/main/resources/application.properties
 
 ## VS Code
 .vscode/
