@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Set
 import consul
 import json
 from functools import lru_cache
@@ -28,6 +28,13 @@ def get(namespace) -> Dict[str, object]:
         return json.loads(data['Value'].decode('utf-8'))
     except Exception as e:
         raise Exception("Server error!")
+
+def get_roles(namespace_name: str) -> Set[str]:
+    namespace = get(namespace_name)
+    if namespace:
+        return set(namespace.keys())
+    
+    return set()
     
 # relations is value for key-value pair in consul db
 def get_roles_for_role(role, aclObject):

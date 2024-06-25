@@ -40,7 +40,7 @@ public class AclController {
         return new ResponseEntity<>(response.getBody(), headers, HttpStatus.OK);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> delete(@Valid @RequestBody AclDTO dto) {
         //TODO: add validation check based on namespace config
 
@@ -50,6 +50,19 @@ public class AclController {
 
         HttpEntity<AclDTO> requestEntity = new HttpEntity<>(dto, headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String.class);
+        return new ResponseEntity<>(response.getBody(), headers, HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@Valid @RequestBody AclDTO dto) {
+        //TODO: add validation check based on namespace config
+
+        String url = "http://localhost:4000/acl";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<AclDTO> requestEntity = new HttpEntity<>(dto, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
         return new ResponseEntity<>(response.getBody(), headers, HttpStatus.OK);
     }
 }
