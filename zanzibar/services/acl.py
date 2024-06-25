@@ -1,5 +1,5 @@
 import plyvel
-from services.namespace import validate_namespace_acl, get_roles_for_role, get, get_roles, extract_namespace_name
+from services.namespace import validate_namespace_acl, get_roles_for_role, get_roles, extract_namespace_name
 import copy
 
 from dtos import AclEntryDTO
@@ -12,11 +12,10 @@ def _get_key(entry: AclEntryDTO) -> bytes:
 def delete_existant(entry: AclEntryDTO) -> None:
     roles = get_roles(extract_namespace_name(entry.object))
     roles.discard(entry.relation)
-    print(roles)
+
     entry_copy = copy.deepcopy(entry)
     for role in roles:
         entry_copy.relation = role
-        print(entry_copy)
         delete(entry_copy)
 
 def add(entry: AclEntryDTO, update = False) -> None:
@@ -48,7 +47,6 @@ def check(entry: AclEntryDTO) -> bool:
             db.close()
 
     parent_roles = get_roles_for_role(entry.relation, entry.object)
-    print(parent_roles)
     
     try:
         db = plyvel.DB(db_path, create_if_missing=True)

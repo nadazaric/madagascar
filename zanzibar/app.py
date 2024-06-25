@@ -34,7 +34,7 @@ def get_config():
 @app.route('/acl', methods=['POST'])
 def add_acl_entry():
     data = request.json
-    print(data)
+
     try:
         acl_entry = AclEntryDTO.from_dict(data)
         acl.add(acl_entry)
@@ -48,7 +48,7 @@ def add_acl_entry():
 @app.route('/acl', methods=['PUT'])
 def update_acl_entry():
     data = request.json
-    print(data)
+
     try:
         acl_entry = AclEntryDTO.from_dict(data)
         acl.add(acl_entry, True)
