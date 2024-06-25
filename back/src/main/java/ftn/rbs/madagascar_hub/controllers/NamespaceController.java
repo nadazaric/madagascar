@@ -51,9 +51,6 @@ public class NamespaceController {
 
     @GetMapping()
     public ResponseEntity<?> get(@RequestParam String namespace) {
-//        String url = "http://localhost:4000/namespace?namespace=" + namespace;
-//        System.out.println(url);
-//        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         String url = "http://localhost:4000/namespace?namespace=" + namespace;
         System.out.println(url);
 
