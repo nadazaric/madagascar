@@ -3,8 +3,7 @@ from services.namespace import validate_namespace_acl, get_roles_for_role, get_r
 import copy
 
 from dtos import AclEntryDTO
-
-db_path = './data'
+from config import LEVELDB_NAME
 
 def _get_key(entry: AclEntryDTO) -> bytes:
     return f"{entry.object}#{entry.relation}@{entry.user}".encode()
@@ -29,7 +28,7 @@ def add(entry: AclEntryDTO, update = False) -> None:
     value = b""  
 
     try:
-        db = plyvel.DB(db_path, create_if_missing=True)
+        db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
         db.put(key, value)
     finally:
         if db is not None:
@@ -39,7 +38,7 @@ def check(entry: AclEntryDTO) -> bool:
     key = _get_key(entry)
 
     try:
-        db = plyvel.DB(db_path, create_if_missing=True)
+        db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
         if db.get(key) is not None:
             return True
     finally:
@@ -49,7 +48,7 @@ def check(entry: AclEntryDTO) -> bool:
     parent_roles = get_roles_for_role(entry.relation, entry.object)
     
     try:
-        db = plyvel.DB(db_path, create_if_missing=True)
+        db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
         for role in parent_roles:
             entry.relation = role
             key = _get_key(entry)
@@ -66,7 +65,7 @@ def delete(entry: AclEntryDTO) -> None:
     key = _get_key(entry)
 
     try:
-        db = plyvel.DB(db_path, create_if_missing=True)
+        db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
         db.delete(key)
     finally:
         if db is not None:
