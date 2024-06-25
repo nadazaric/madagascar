@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Credentials, CognitoService } from '../services/cognito.service';
+import { Credentials} from '../services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { usernameRegexValidator } from '../validators/user/userValidator';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -15,40 +16,56 @@ import { usernameRegexValidator } from '../validators/user/userValidator';
 export class SignInComponent {
 
   isVisible = false;
-
+  submited: boolean = false;
   credentials: Credentials;
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, usernameRegexValidator]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required])
   })
 
   constructor(private router: Router,
-              private cognitoService: CognitoService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private authService: AuthService) {
     this.credentials = {} as Credentials;
   }
 
   public signIn(): void {
-    console.log("tu")
+    this.submited = true;
+
+    const credentials = {
+      email: this.loginForm.value.username,
+      password: this.loginForm.value.password
+    };
+
     if (this.loginForm.valid) {
-      let c = {username: this.loginForm.value.username!, password: this.loginForm.value.password!}
-      this.cognitoService.signIn(c).then((data) => {
-        console.log(data);
-        console.log(data.getSignInUserSession().getAccessToken().getJwtToken());
-        localStorage.setItem('user', JSON.stringify(data.getSignInUserSession().getIdToken().getJwtToken()));
-        this.cognitoService.setLoggedIn(true);
-        this.cognitoService.loggedIn = true;
-        this.router.navigate(['homepage']);
-      }).catch((err) => {
-        console.log(err);
-        this.snackBar.open(err.message, "", {
-          duration: 2700, panelClass: ['snack-bar-back-error']
-        });
+      this.authService.login(credentials).subscribe({
+        next: (result) => {
+          this.processLogin(result);
+        },
+         error: (error) => {
+          console.log(error);
+          console.log("tu")
+          console.log(error.error);
+          this.snackBar.open("Bad credentials. Please try again!", "", {
+              duration: 2700, panelClass: ['snack-bar-server-error']
+          });
+        },
       });
     }
+  }
 
-    
+  processLogin(result: any) {
+    localStorage.setItem('user', JSON.stringify(result.accessToken));
+    // localStorage.setItem('refreshToken', JSON.stringify(result.refreshToken));
+    this.authService.setUser();
+    let user = this.authService.getUser();
+    console.log(this.authService.getUser());
+    this.authService.setLoggedIn(true);
+    if (this.authService.getRole() == "ROLE_ADMIN")
+      this.router.navigate(['users']);
+    else
+      this.router.navigate(['homepage']);
   }
 
 }

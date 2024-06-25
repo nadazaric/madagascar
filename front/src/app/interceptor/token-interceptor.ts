@@ -11,25 +11,28 @@ import {
 import { throwError, Observable, BehaviorSubject, of, finalize } from "rxjs";
 import { catchError, filter, take, switchMap } from "rxjs/operators";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CognitoService } from '../services/cognito.service';
+import { AuthService } from '../services/auth.service';
 
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(public snackBar: MatSnackBar,
-    private router: Router,
-    private cognito: CognitoService) { }
+  isRefresh: boolean = false;
+
+  constructor(private auth: AuthService,
+    public snackBar: MatSnackBar,
+    private router: Router) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('usaoooo')
-    // this.cognito.loggedIn
-    if (localStorage.getItem('user')) {
+
+    
+    console.log(this.auth.getToken())
+    if (this.auth.isLoggedIn()) {
+      console.log(this.auth.getToken())
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${localStorage.getItem('user')?.replace(/["]/g, '')}` 
+          Authorization: `Bearer ${this.auth.getToken()}` 
         }
       });
-      // console.log(request);
     }
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -43,12 +46,38 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    this.cognito.loggedIn = false;
-    localStorage.removeItem('user');
-    this.router.navigate(['login']);
-    this.snackBar.open("Your access token has expired!", "", {
-        duration: 2700, panelClass: ['snack-bar-back-error']
-    });
+    if (!this.isRefresh) {
+      this.isRefresh = true;
+
+      if (this.auth.isLoggedIn()) {
+        return this.auth.refresh().pipe(
+          switchMap((res) => {
+            this.isRefresh = false;
+            localStorage.setItem('user', JSON.stringify(res.accessToken));
+            localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
+            this.auth.setUser();
+            request = request.clone({
+              setHeaders: {
+                Authorization: `Bearer ${this.auth.getToken()}` 
+              }
+            });
+            return next.handle(request);
+          }),
+          catchError((error) => {
+            this.isRefresh = false;
+            localStorage.removeItem('user');
+              localStorage.removeItem('refreshToken');
+              this.auth.setUser();
+              this.router.navigate(['login']);
+              this.snackBar.open("Your access token has expired!", "", {
+                  duration: 2000,
+              });
+
+            return throwError(() => error);
+          })
+        );
+      }
+    }
 
     return next.handle(request);
   }
