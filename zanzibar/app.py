@@ -24,10 +24,10 @@ def get_config():
     namespace = request.args.get('namespace')
     try:
         value = namespace_service.get(namespace)
+        if not value:
+            return jsonify({'error': f'Configuration for namespace "{namespace}" not found'}), 404
+        
         return jsonify(value), 200
-    except KeyError as e:
-        print(f"Caught KeyError: {e}")
-        return jsonify({'error': f'Configuration for namespace "{namespace}" not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -37,17 +37,32 @@ def add_acl_entry():
 
     try:
         acl_entry = AclEntryDTO.from_dict(data)
+        acl.add(acl_entry)
+        return jsonify({'message': 'ACL entry added successfully', 'entry': acl_entry.to_dict()}), 200
+    
     except KeyError:
         return jsonify({'error': 'Invalid JSON format'}), 400
-    
-    acl.add(acl_entry)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-    return jsonify({'message': 'ACL entry added successfully', 'entry': acl_entry.to_dict()}), 200
-
-@app.route('/acl/check', methods=['GET'])
-def check_acl_entry():
+@app.route('/acl', methods=['PUT'])
+def update_acl_entry():
     data = request.json
 
+    try:
+        acl_entry = AclEntryDTO.from_dict(data)
+        acl.add(acl_entry, True)
+        return jsonify({'message': 'ACL entry updated successfully', 'entry': acl_entry.to_dict()}), 200
+    
+    except KeyError:
+        return jsonify({'error': 'Invalid JSON format'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/acl/check', methods=['POST'])
+def check_acl_entry():
+    data = request.json
+    
     try:
         acl_entry = AclEntryDTO.from_dict(data)
     except KeyError:
@@ -71,4 +86,4 @@ def delete_acl_entry():
     return jsonify({'message': 'ACL entry deleted successfully', 'entry': acl_entry.to_dict()}), 200
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=4000, debug=True, use_reloader=False)
+    app.run(host='127.0.0.1', port=4000, debug=True)
