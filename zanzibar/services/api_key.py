@@ -2,7 +2,7 @@ import secrets
 import hashlib
 import plyvel
 from flask import request, jsonify
-from values import LEVELDB_NAME, LEVELDB_PREFIX_API_KEY
+from config import LEVELDB_NAME, LEVELDB_PREFIX_API_KEY
 
 db = None
 
