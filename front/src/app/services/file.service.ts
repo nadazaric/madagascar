@@ -31,11 +31,11 @@ export class FileService {
     return this.http.get<any>(environment.apiHost + "/file/user", options);
   }
 
-  getSharedWith(): Observable<any> {
+  getSharedWith(fileId: number): Observable<any> {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.get<any>(environment.apiHost + "/file/shared-with", options);
+    return this.http.get<any>(environment.apiHost + "/acl/shared-with/" + fileId, options);
   }
 
   shareWithOther(acl: any): Observable<any> {

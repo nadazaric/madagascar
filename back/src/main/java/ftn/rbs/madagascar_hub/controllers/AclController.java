@@ -9,6 +9,8 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/acl")
@@ -39,5 +41,11 @@ public class AclController {
     public ResponseEntity<?> update(@Valid @RequestBody FrontAclDTO dto) {
         ResponseEntity<?> response = aclService.update(dto);
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+    }
+
+    @GetMapping("/shared-with/{fileId}")
+    public ResponseEntity<?> sharedWith(@PathVariable Long fileId) {
+        List<AclDTO> aclDTOS = aclService.getSharedWith(fileId);
+        return new ResponseEntity<>(aclDTOS, HttpStatus.OK);
     }
 }

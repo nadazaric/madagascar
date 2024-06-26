@@ -4,17 +4,17 @@ import ftn.rbs.madagascar_hub.dtos.AclDTO;
 import ftn.rbs.madagascar_hub.dtos.FrontAclDTO;
 import ftn.rbs.madagascar_hub.models.User;
 import ftn.rbs.madagascar_hub.models.File;
-import ftn.rbs.madagascar_hub.repositories.FileRepository;
 import ftn.rbs.madagascar_hub.repositories.UserRepository;
 import ftn.rbs.madagascar_hub.services.interfaces.IAclService;
 import ftn.rbs.madagascar_hub.services.interfaces.IUserService;
-import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -114,5 +114,18 @@ public class AclService implements IAclService {
             throw new RuntimeException("ACL not valid.");
 
         return sendRequestToZanzibar(zanzibarDto, "acl/check", HttpMethod.POST);
+    }
+
+    @Override
+    public List<AclDTO> getSharedWith(Long id) {
+        File file = fileService.getFile(id);
+        String url = String.format("%s/%s/%s", zanzibarPath, "shared", formatObjectName(file));
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(madagascarApiKeyField, madagascarApiKey);
+        HttpEntity<AclDTO> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<List<AclDTO>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {});
+        List<AclDTO> acls = response.getBody();
+        System.out.println();
+        return acls;
     }
 }

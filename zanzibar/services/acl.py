@@ -73,3 +73,21 @@ def delete(entry: AclEntryDTO) -> None:
     finally:
         if db is not None:
             db.close()
+
+def get_all_relations_for_doc(prefix):
+    try:
+        db = plyvel.DB(LEVELDB_NAME, create_if_missing=True)
+        prefixed_db = db.prefixed_db(prefix.encode())
+        relations = [get_acl_dto_from_relation(prefix + key.decode()).to_dict() for key, _ in prefixed_db]
+        return relations
+    finally:
+        if db is not None:
+            db.close()
+
+def get_acl_dto_from_relation(relation):
+    left = relation.split("#")[0]
+    right = relation.split("#")[1]
+    role = right.split("@")[0]
+    user = right.split("@")[1]
+    acl = AclEntryDTO(left, role, user)
+    return acl

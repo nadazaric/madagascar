@@ -65,7 +65,7 @@ export class ShareDialogComponent implements OnInit {
   getSharedWith(){
     this.sharedWith.push({user: "neca", relation: "Viewer", fileId: 2})
     this.selectedUpdatePrivilege.push("Viewer");
-    this.fileService.getSharedWith().subscribe(
+    this.fileService.getSharedWith(this.file.id).subscribe(
       (data: ACLDTO[]) => {
         this.sharedWith = data;
         console.log(data);
