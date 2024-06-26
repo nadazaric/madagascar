@@ -14,3 +14,6 @@ class AclEntryDTO:
             'relation': self.relation,
             'user': self.user
         }
+    
+    def __str__(self):
+        return f"AclEntryDTO(object={self.object}, relation={self.relation}, user={self.user})"

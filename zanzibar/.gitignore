@@ -276,3 +276,6 @@ pip-selfcheck.json
 tmp/
 levelDB/
 data/
+
+# Ignore log files
+logging/application.log
