@@ -44,9 +44,10 @@ export class ShareDialogComponent implements OnInit {
       });
       return
     }
+    console.log(this.file)
     let acl : ACLDTO = {
       user: this.inviteForm.value.username!,
-      object: this.file.name,
+      fileId: this.file.id,
       relation: this.selectedAddPrivilege //proveriti dal treba lowercase ili uppercase
     }
     this.fileService.shareWithOther(acl).subscribe({
@@ -66,7 +67,7 @@ export class ShareDialogComponent implements OnInit {
   }
 
   getSharedWith(){
-    this.sharedWith.push({user: "neca", relation: "Viewer", object: "nebitno"})
+    this.sharedWith.push({user: "neca", relation: "Viewer", fileId: 2})
     this.selectedUpdatePrivilege.push("Viewer");
     this.fileService.getSharedWith().subscribe(
       (data: ACLDTO[]) => {
@@ -85,7 +86,7 @@ export class ShareDialogComponent implements OnInit {
   updateSharedWith(index: any){
     let acl : ACLDTO = {
       user: this.sharedWith[index].user,
-      object: this.file.name,
+      fileId: this.file.id,
       relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
     }
 
@@ -109,7 +110,7 @@ export class ShareDialogComponent implements OnInit {
     // TODO: proveriti da li moze delete sa bodijem!!!
     let acl : ACLDTO = {
       user: this.sharedWith[index].user,
-      object: this.file.name,
+      fileId: this.file.id,
       relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
     }
 

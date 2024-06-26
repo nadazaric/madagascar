@@ -42,7 +42,7 @@ export class FileService {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.post<any>(environment.apiHost + "/file/share", acl, options);
+    return this.http.post<any>(environment.apiHost + "/acl", acl, options);
   }
 
   updateShareWith(acl: any): Observable<any> {
@@ -74,7 +74,7 @@ export interface FileDTO {
 export interface ACLDTO {
   user: string,
   relation: string,
-  object: string
+  fileId: number
 }
 
 export interface SharedWithDTO {
