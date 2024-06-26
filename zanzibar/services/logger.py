@@ -5,10 +5,8 @@ from flask import request
 from cryptography.fernet import Fernet
 import base64
 import json
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
 
 class EncryptedLogFormatter():
     def __init__(self):

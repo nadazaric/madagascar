@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from dtos import AclEntryDTO
 from services import namespace as namespace_service
 import json
@@ -6,15 +6,28 @@ from flask_limiter import Limiter
 import services.acl as acl
 from services.api_key import generate_api_key, require_api_key
 from flask_limiter.util import get_remote_address
-
+from dotenv import load_dotenv
 from services.logger import security_logger, app_logger, sanitize_input, log_request, EncryptedLogFormatter
+import os
+from flask_talisman import Talisman
+
+load_dotenv()
 
 app = Flask(__name__)
+# Talisman(
+#     app,
+#     force_https=True
+# )
+
 logger_encryptor = EncryptedLogFormatter()
+
+def redirect_to_https():
+    pass
 
 @app.before_request
 def before_request():
     log_request(request, logger_encryptor)
+    
     
 limiter = Limiter(
     get_remote_address,
@@ -133,4 +146,10 @@ def get_app_key():
     return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 201
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=4000, debug=True)
+    # cert_folder = os.getenv('CERT_FOLDER')
+    # ssl_context = (
+    #     os.path.join(cert_folder, 'cert.pem'), 
+    #     os.path.join(cert_folder, 'key.pem')
+    # )
+    # app.run(host='127.0.0.1', port=4000, ssl_context=ssl_context)
+    app.run(host='127.0.0.1', port=4000)
