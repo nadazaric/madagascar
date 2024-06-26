@@ -279,3 +279,7 @@ data/
 
 # Ignore log files
 logging/application.log
+
+
+# Cert files
+certs/
