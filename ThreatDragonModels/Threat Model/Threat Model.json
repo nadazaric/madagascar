@@ -19,6 +19,56 @@
         "cells": [
           {
             "position": {
+              "x": 822,
+              "y": 80.00000000000006
+            },
+            "size": {
+              "width": 150,
+              "height": 130
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": ""
+              }
+            },
+            "id": "e4148890-5f63-4a7a-9ad8-408681f63ba4",
+            "zIndex": -1,
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 720,
+              "y": 240.00000000000017
+            },
+            "size": {
+              "width": 160,
+              "height": 160
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": ""
+              }
+            },
+            "id": "a7a4387c-c28b-49e9-aa0b-e83a69cefcc7",
+            "zIndex": -1,
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
               "x": 310,
               "y": 150.0000000000002
             },
@@ -93,8 +143,8 @@
           },
           {
             "position": {
-              "x": 650,
-              "y": 215
+              "x": 630,
+              "y": 260.0000000000002
             },
             "size": {
               "width": 340,
