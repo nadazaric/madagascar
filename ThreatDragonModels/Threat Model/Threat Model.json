@@ -1,0 +1,1211 @@
+{
+  "version": "2.2.0",
+  "summary": {
+    "title": "Threat Model",
+    "owner": "",
+    "description": "",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "STRIDE diagram",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.2.0",
+        "cells": [
+          {
+            "position": {
+              "x": 820,
+              "y": 85.0000000000002
+            },
+            "size": {
+              "width": 150,
+              "height": 130
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": ""
+              }
+            },
+            "zIndex": -1,
+            "id": "e4148890-5f63-4a7a-9ad8-408681f63ba4",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 719.9999999999997,
+              "y": 240.00000000000034
+            },
+            "size": {
+              "width": 160,
+              "height": 300
+            },
+            "shape": "trust-boundary-box",
+            "attrs": {
+              "headerText": {
+                "text": ""
+              }
+            },
+            "zIndex": -1,
+            "id": "a7a4387c-c28b-49e9-aa0b-e83a69cefcc7",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 310,
+              "y": 150.0000000000002
+            },
+            "size": {
+              "width": 180,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "Madagascar API"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 1,
+            "id": "bd36395b-d625-4806-9b6d-324c5adc0a51",
+            "data": {
+              "type": "tm.Process",
+              "name": "Madagascar API",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "416e167a-c3ff-44fe-8c7c-23bd4d34b3da",
+                  "title": "Number of API requests should be limited",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "The attacker can send a large volume of HTTP requests to the web server, consuming its resources and making it unavailable to handle legitimate user requests.",
+                  "mitigation": "Implement network security measures such as firewalls, intrusion detection systems (IDS), and rate limiting to filter and block malicious traffic. Consider using specialized DDoS protection services or content delivery networks (CDNs).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 16,
+                  "score": ""
+                },
+                {
+                  "id": "74a3d9b3-642a-405d-8ed0-e3f7c3bbae0a",
+                  "title": "Logging system should be protected from injection and posinoning",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "An attacker could use the logging system to inject non-existant logs into the system, temper with logs or inserts executable code - Log Injection & Poisoning.",
+                  "mitigation": "Implement proper log sanitization techniques (e.g. escaping special characters) and log formatting to disable disrupting log structure and validity.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 17,
+                  "score": ""
+                },
+                {
+                  "id": "c95b3f66-ea45-4dfd-8656-94b25466330c",
+                  "title": "API should be protected with API keys",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "Unauthorized users could access to system, which would be available to anyone on the internet with no constraints.",
+                  "mitigation": "Use API keys for authorization verification. A client first need to create an API key to identify itself when communicating with the API. Each request verifies the key to determine the request's validity. ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 18,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 830,
+              "y": 95.0000000000002
+            },
+            "size": {
+              "width": 130,
+              "height": 110
+            },
+            "attrs": {
+              "text": {
+                "text": "Angular frontend"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 2,
+            "id": "7e05e146-94be-47d6-9b14-408036ed684b",
+            "data": {
+              "type": "tm.Process",
+              "name": "Angular frontend",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 629.9999999999997,
+              "y": 260.0000000000002
+            },
+            "size": {
+              "width": 340,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "SpringBoot backend"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 3,
+            "id": "679bd20e-8ba6-4344-950e-b7c5fd997ddb",
+            "data": {
+              "type": "tm.Process",
+              "name": "SpringBoot backend",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 970,
+              "y": 380
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "PostgreSQL"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 4,
+            "id": "9d03b5b6-26cf-4b26-8d01-00af2fb4f550",
+            "data": {
+              "type": "tm.Store",
+              "name": "PostgreSQL",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "a6155afa-29f2-49a0-baf3-204d8a15c702",
+                  "title": "Passwords should be hashed",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "An attacker could gain access to PostgreSQL database and read API keys",
+                  "mitigation": "Passwords should be hashed to enhance security and prevent unauthorized reads.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 21,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 190,
+              "y": 250
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "LevelDB"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 5,
+            "id": "9452ab3c-939b-4ba4-bce9-3e9e5a67f5ab",
+            "data": {
+              "type": "tm.Store",
+              "name": "LevelDB",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "64c14cbe-1593-4b45-95f6-c36344e00d24",
+                  "title": "API key should be hashed",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "An attacker could gain access to leveldDB files and read API keys",
+                  "mitigation": "API key should be hashed to enhance security and prevent unauthorized reads.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 13,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 510,
+              "y": 480.00000000000034
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "ConsulDB"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 6,
+            "id": "0cfd7370-d4ea-45bc-b8af-137d83129258",
+            "data": {
+              "type": "tm.Store",
+              "name": "ConsulDB",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 590,
+              "y": 20
+            },
+            "size": {
+              "width": 112.5,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Web Browser"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 7,
+            "id": "565c8ca5-a3ce-45b3-9325-2d994b9a1b9f",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Web Browser",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "1d8d7984-c272-4192-9872-9cfdebc93c4b",
+            "source": {
+              "x": 470,
+              "y": 41
+            },
+            "target": {
+              "x": 820,
+              "y": 40
+            },
+            "vertices": [
+              {
+                "x": 650,
+                "y": 110
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "ACL query Req/Res\n",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "7d845b7c-67d0-4032-a21f-1c2ef9d41ceb",
+            "labels": [
+              "ACL query Req/Res\n"
+            ],
+            "source": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "target": {
+              "cell": "9452ab3c-939b-4ba4-bce9-3e9e5a67f5ab"
+            },
+            "vertices": [
+              {
+                "x": 220,
+                "y": 170
+              },
+              {
+                "x": 200,
+                "y": 220
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "API key Req/Res",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "4ba337bf-d559-4fd6-a014-385709983502",
+            "labels": [
+              "API key Req/Res"
+            ],
+            "source": {
+              "cell": "9452ab3c-939b-4ba4-bce9-3e9e5a67f5ab"
+            },
+            "target": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "vertices": [
+              {
+                "x": 280,
+                "y": 340
+              },
+              {
+                "x": 360,
+                "y": 360
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Query result\n",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "64d0e271-ba41-4c1c-9444-dcc02d3d1f7b",
+            "labels": [
+              "Query result\n"
+            ],
+            "source": {
+              "cell": "9d03b5b6-26cf-4b26-8d01-00af2fb4f550"
+            },
+            "target": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "vertices": [
+              {
+                "x": 970,
+                "y": 320
+              }
+            ]
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "c79dcf4e-4fb9-4e18-aa48-88b9ccd49155",
+            "source": {
+              "x": 1010,
+              "y": 540
+            },
+            "target": {
+              "x": 1150,
+              "y": 350
+            },
+            "vertices": [
+              {
+                "x": 950,
+                "y": 410
+              },
+              {
+                "x": 990,
+                "y": 330
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": "4 3"
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Read app config",
+              "description": "",
+              "outOfScope": true,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "d813db13-d85f-4cc8-811e-d4bfd9182e92",
+            "labels": [
+              "Read app config"
+            ],
+            "source": {
+              "cell": "8cf97389-fbef-4df5-8892-fd1b2e162b0a"
+            },
+            "target": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "436b45ee-d2f0-4c2a-97d6-156486ac1028",
+            "source": {
+              "x": 360,
+              "y": 20
+            },
+            "target": {
+              "x": 260,
+              "y": 360
+            },
+            "vertices": [
+              {
+                "x": 520,
+                "y": 210
+              },
+              {
+                "x": 410,
+                "y": 380
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Write log",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "id": "1c2ff474-d05d-4d38-b88f-f85ae2cdc76d",
+            "labels": [
+              "Write log"
+            ],
+            "source": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "target": {
+              "cell": "f0b52ebd-3f7c-43f1-857e-04995525d222"
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "ec988f0d-5877-4d56-8250-1244dbdcaa86",
+            "source": {
+              "x": 440,
+              "y": 550
+            },
+            "target": {
+              "x": 680,
+              "y": 540
+            },
+            "vertices": [
+              {
+                "x": 570,
+                "y": 430
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res\n",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "f60f3217-0b25-4649-9d9c-76fb3cf4da0e",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "40c5fc25-905f-45f4-a905-b45d0d8c708d",
+            "labels": [
+              "HTTP(s) Req/Res\n"
+            ],
+            "source": {
+              "cell": "7e05e146-94be-47d6-9b14-408036ed684b"
+            },
+            "target": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "vertices": [
+              {
+                "x": 960,
+                "y": 260
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "7e75066c-8dfe-4cb1-807e-6914a4f6d2d0",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "b449e67a-72bc-4657-859e-444a20d60c5d",
+            "labels": [
+              "HTTP(s) Req/Res"
+            ],
+            "source": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "target": {
+              "cell": "0cfd7370-d4ea-45bc-b8af-137d83129258"
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res\n",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "fc2fe39e-30f0-4824-b258-f0673c61ed20",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n\n\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": ""
+                },
+                {
+                  "id": "505eb5b7-8b99-4b2c-b705-0d692392e1ea",
+                  "title": "New STRIDE threat",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 15,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "7b9044dc-99cb-4f25-a50b-1f5dd4f92b07",
+            "labels": [
+              "HTTP(s) Req/Res\n"
+            ],
+            "source": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "target": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "vertices": [
+              {
+                "x": 600,
+                "y": 286.5
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Query",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "660f7a8d-73bd-49d1-bb09-c0c40ee378dd",
+                  "title": "SQL Injection",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "An attacker could use various special characters and even code to retrieve sensitive data from DB.",
+                  "mitigation": "Don't use simple string concatenation for query building. Instead, use tools like Prepared Statements in Java.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 19,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "d94d4d39-de6c-49bf-a492-ad95563df97e",
+            "labels": [
+              "Query"
+            ],
+            "source": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "target": {
+              "x": 960,
+              "y": 420
+            },
+            "vertices": [
+              {
+                "x": 870,
+                "y": 410
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "e09fdff1-9f75-42f6-b4bd-f5114062d6b9",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": ""
+                },
+                {
+                  "id": "88a88c4f-5e25-457d-ba5b-1f06dabce67c",
+                  "title": "All data should be validated to prevent XSS attacks",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "A malicious user could take advantage od input fields and request headers to inject malicious code to execute on the app.",
+                  "mitigation": "Input field validation (only accept specified lengths, formats, and types) and stringifying inputs to not let it be an executable block of code.  Use HTML entity encoding or JavaScript escaping to neutralize any potentially malicious scripts. Enable the X-XSS-Protection header in HTTP responses to activate the built-in XSS filter in modern web browsers.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 14,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "94ef5fcd-0f2b-4356-99bb-5b27c60189d6",
+            "labels": [
+              "HTTP(s) Req/Res"
+            ],
+            "source": {
+              "cell": "565c8ca5-a3ce-45b3-9325-2d994b9a1b9f"
+            },
+            "target": {
+              "cell": "7e05e146-94be-47d6-9b14-408036ed684b"
+            },
+            "vertices": [
+              {
+                "x": 700,
+                "y": 130
+              }
+            ]
+          },
+          {
+            "position": {
+              "x": 740,
+              "y": 450
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Backend Config"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 11,
+            "id": "8cf97389-fbef-4df5-8892-fd1b2e162b0a",
+            "data": {
+              "type": "tm.Store",
+              "name": "Backend Config",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 200,
+              "y": 35.0000000000002
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Log File"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 12,
+            "id": "f0b52ebd-3f7c-43f1-857e-04995525d222",
+            "data": {
+              "type": "tm.Store",
+              "name": "Log File",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "76b857ea-5f58-4136-8659-23a02fe259b6",
+                  "title": "Log entries should be encrypted",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "An attacker could gain access to log files and read information about acls and namespaces.",
+                  "mitigation": "Data part of each log should be encrypted with a secure algorithm so that only users with the encryption key can decrypt and read the data. The encryption key should be stored securely.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 12,
+                  "score": ""
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "",
+    "threatTop": 21
+  }
+}

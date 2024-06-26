@@ -1,0 +1,28 @@
+.full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .shared-with {
+    margin-top: 15px;
+  }
+  
+  .shared-user {
+    display: grid;
+    align-items: center;
+    /* justify-content: space-between; */
+    grid-template-columns: 2fr 2fr auto auto auto;
+    margin-top: 16px;
+    font-size: 14px;
+    min-width: 600px;
+  }
+  
+  .shared-user .name {
+    font-weight: bold;
+  }
+  
+  .shared-user .email {
+    margin-left: 8px;
+    color: gray;
+  }
+  
