@@ -1,5 +1,8 @@
 package ftn.rbs.madagascar_hub.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.rbs.madagascar_hub.dtos.AclDTO;
 import ftn.rbs.madagascar_hub.dtos.FrontAclDTO;
 import ftn.rbs.madagascar_hub.dtos.SharedUserDTO;
@@ -48,6 +51,8 @@ public class AclService implements IAclService {
 
     @Autowired
     private FileService fileService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private boolean doesUserExist(String username) {
         Optional<User> foundUser = allUsers.findByUsername(username);
@@ -124,18 +129,31 @@ public class AclService implements IAclService {
         if (acls == null) return new ArrayList<>();
         List<SharedUserDTO> shared = new ArrayList<>();
         for(AclDTO acl : acls) {
-            String[] parts = acl.getUser().split(":");
-            String username = parts[1];
-            User user = userService.getUserByUsername(username);
-            shared.add(new SharedUserDTO(
-                    String.format("%s %s", user.getName(), user.getSurname()),
-                    parts[1],
-                    acl.getRelation()
-            ));
+            SharedUserDTO sharedUserDTO = convertAclToSharedUserDTO(acl);
+            shared.add(sharedUserDTO);
         }
         return shared;
     }
 
+    @Override
+    public SharedUserDTO getSharedInfoJsonAclString(String json) throws JsonProcessingException {
+        JsonNode jsonNode = objectMapper.readTree(json);
+        JsonNode entryNode = jsonNode.get("entry");
+        AclDTO aclDto = objectMapper.treeToValue(entryNode, AclDTO.class);
+        return convertAclToSharedUserDTO(aclDto);
+    }
+
+    private SharedUserDTO convertAclToSharedUserDTO(AclDTO acl) {
+        String[] parts = acl.getUser().split(":");
+        String username = parts[1];
+        User user = userService.getUserByUsername(username);
+        return new SharedUserDTO(
+                String.format("%s %s", user.getName(), user.getSurname()),
+                parts[1],
+                acl.getRelation()
+        );
+    }
+    
     private List<AclDTO> getSharedAcls(File file){
         String url = String.format("%s/%s/%s", zanzibarPath, "shared", formatObjectName(file));
         HttpHeaders headers = new HttpHeaders();

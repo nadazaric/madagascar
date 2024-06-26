@@ -55,6 +55,7 @@ export class ShareDialogComponent implements OnInit {
     }
     this.fileService.shareWithOther(acl).subscribe({
       next: (value: any)  => {
+        console.log(value)
         this.snackBar.open("Successfully shared file!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
