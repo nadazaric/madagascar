@@ -16,7 +16,7 @@ import { FileDTO } from '../services/file.service';
 export class ShareDialogComponent implements OnInit {
 
   file: FileDTO = {} as FileDTO;
-  selectedAddPrivilege: string = "Viewer";
+  selectedAddPrivilege: string = "viewer";
   selectedUpdatePrivilege: string[] = [];
   sharedWith: ACLDTO[] = [];
 
@@ -38,8 +38,12 @@ export class ShareDialogComponent implements OnInit {
   });
 
   addUserFromForm(){
-    console.log(this.inviteForm.value.username!);
-    console.log(this.selectedAddPrivilege);
+    if (!this.inviteForm.valid) {
+      this.snackBar.open("Input fields are required", "", {
+        duration: 2700, panelClass: ['snack-bar-back-error']
+      });
+      return
+    }
     let acl : ACLDTO = {
       user: this.inviteForm.value.username!,
       object: this.file.name,

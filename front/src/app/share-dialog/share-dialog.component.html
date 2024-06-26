@@ -5,11 +5,11 @@
             <mat-form-field style="margin-top: 0; margin-right: 10px;">
                 <mat-label>Enter username</mat-label>
                 <input matInput type="text" name="username" formControlName="username"/>
-                <mat-error *ngIf="inviteForm.get('username')?.errors?.['required']">entering username is required</mat-error>
+                <mat-error *ngIf="inviteForm.get('username')?.errors?.['required']">Entering username is required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" style="margin-top: 0; margin-right: 10px; width: 150px;">
                 <mat-label>Privilege</mat-label>
-                <mat-select [(ngModel)]="selectedAddPrivilege">
+                <mat-select [(value)]="selectedAddPrivilege">
                   <mat-option value="viewer">Viewer</mat-option>
                   <mat-option value="editor">Editor</mat-option>
                 </mat-select>

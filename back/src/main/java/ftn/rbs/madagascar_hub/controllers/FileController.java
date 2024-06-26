@@ -1,10 +1,9 @@
 package ftn.rbs.madagascar_hub.controllers;
 
 
-import ftn.rbs.madagascar_hub.dtos.AclDTO;
-import ftn.rbs.madagascar_hub.dtos.CredentialsDTO;
-import ftn.rbs.madagascar_hub.dtos.FileDTO;
-import ftn.rbs.madagascar_hub.dtos.FileUploadDTO;
+import ftn.rbs.madagascar_hub.dtos.*;
+import ftn.rbs.madagascar_hub.models.File;
+import ftn.rbs.madagascar_hub.services.interfaces.IAclService;
 import ftn.rbs.madagascar_hub.services.interfaces.IFileService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,17 @@ public class FileController {
     @Autowired
     private IFileService fileService;
 
+    @Autowired
+    private  IAclService aclService;
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> add(@Valid @RequestBody FileUploadDTO fileDTO){
-        fileService.addFile(fileDTO);
+        File file = fileService.addFile(fileDTO);
+        aclService.add(new FrontAclDTO(
+                file.getOwner().getUsername(),
+                "owner",
+                file.getId()
+        ));
         return ResponseEntity.ok().build();
     }
 
