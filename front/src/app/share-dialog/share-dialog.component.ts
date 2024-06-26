@@ -54,8 +54,9 @@ export class ShareDialogComponent implements OnInit {
       relation: this.selectedAddPrivilege
     }
     this.fileService.shareWithOther(acl).subscribe({
-      next: (value: any)  => {
-        console.log(value)
+      next: (value: SharedUserDTO)  => {
+        this.sharedWith.push(value)
+        this.selectedUpdatePrivilege.push(value.relation)
         this.snackBar.open("Successfully shared file!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
