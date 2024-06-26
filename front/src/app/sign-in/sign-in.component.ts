@@ -44,8 +44,6 @@ export class SignInComponent {
           this.processLogin(result);
         },
          error: (error) => {
-          console.log(error);
-          console.log("tu")
           console.log(error.error);
           this.snackBar.open("Bad credentials. Please try again!", "", {
               duration: 2700, panelClass: ['snack-bar-server-error']

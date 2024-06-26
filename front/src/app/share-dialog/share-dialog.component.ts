@@ -28,7 +28,6 @@ export class ShareDialogComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.file = this.data.file;
     this.getSharedWith();
   }
@@ -44,21 +43,18 @@ export class ShareDialogComponent implements OnInit {
       });
       return
     }
-    console.log(this.file)
     let acl : ACLDTO = {
       user: this.inviteForm.value.username!,
       fileId: this.file.id,
-      relation: this.selectedAddPrivilege //proveriti dal treba lowercase ili uppercase
+      relation: this.selectedAddPrivilege
     }
     this.fileService.shareWithOther(acl).subscribe({
       next: (value: any)  => {
-        console.log(value);
         this.snackBar.open("Successfully shared file!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
       },
       error: (err) => {
-        console.log(err);
         this.snackBar.open(err.error, "", {
           duration: 2700, panelClass: ['snack-bar-back-error']
         });

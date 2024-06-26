@@ -76,7 +76,7 @@ public class AclService implements IAclService {
     }
 
     private String formatObjectName(File file) {
-        return file.getName() + file.getId();
+        return zanzibarNamespace + ":" + file.getName() + file.getId();
     }
 
     public ResponseEntity<?> add(FrontAclDTO dto) {
