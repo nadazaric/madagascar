@@ -3,6 +3,7 @@ package ftn.rbs.madagascar_hub.services;
 import ftn.rbs.madagascar_hub.dtos.AclDTO;
 import ftn.rbs.madagascar_hub.dtos.FrontAclDTO;
 import ftn.rbs.madagascar_hub.dtos.SharedUserDTO;
+import ftn.rbs.madagascar_hub.exceptions.NotValidAclException;
 import ftn.rbs.madagascar_hub.models.User;
 import ftn.rbs.madagascar_hub.models.File;
 import ftn.rbs.madagascar_hub.repositories.UserRepository;
@@ -59,7 +60,7 @@ public class AclService implements IAclService {
 
     private void validateAclDto(FrontAclDTO dto, File file) {
         if (!isRequesterOwner(file) || !doesUserExist(dto.getUser()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ACL not valid.");
+            throw new NotValidAclException();
     }
 
     private ResponseEntity<?> sendRequestToZanzibar(AclDTO dto, String endpoint, HttpMethod httpMethod) {

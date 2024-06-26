@@ -18,7 +18,7 @@
         </div>
     </form>
 </div>
-<div style="margin-top: 35px;">
+<div style="margin-top: 35px;" *ngIf="sharedWith.length != 0">
   <h3>Shared with</h3>
   <div class="shared-with">
     <div class="shared-user" *ngFor="let shared of sharedWith; let i=index">

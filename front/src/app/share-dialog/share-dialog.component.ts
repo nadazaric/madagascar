@@ -3,7 +3,6 @@ import { FileMetaData, LambdaService } from './../services/lambda.service';
 import { ACLDTO, FileService, SharedUserDTO, SharedWithDTO } from './../services/file.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
-import { ShareWithOthersFormComponent } from '../share-with-others-form/share-with-others-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FileDTO } from '../services/file.service';
@@ -87,7 +86,6 @@ export class ShareDialogComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Error fetching files', error);
       }
     );
   }
