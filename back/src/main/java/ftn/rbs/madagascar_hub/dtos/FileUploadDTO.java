@@ -1,13 +1,23 @@
 package ftn.rbs.madagascar_hub.dtos;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+
 import java.util.Date;
 
 public class FileUploadDTO {
+    @NotEmpty(message="is required")
+    @Pattern(regexp = "^([a-zA-Zčćđžš0-9 ._-]*)$", message="format is not valid")
     private String name;
+
     private double size;
     private Date createdAt;
     private Date lastModified;
+
+    @NotEmpty(message="is required")
+    @Pattern(regexp = "^([a-zA-Zčćđžš0-9 ._]*)$", message="format is not valid")
     private String description;
+    
     private String content;
 
     public FileUploadDTO(){}

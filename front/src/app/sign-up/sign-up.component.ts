@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { hasLetterAndDigitValidator, nameRegexValidator, surnameRegexValidator, usernameRegexValidator } from '../validators/user/userValidator';
+import { hasLetterAndDigitValidator, nameRegexValidator, passwordRegexValidator, surnameRegexValidator, usernameRegexValidator } from '../validators/user/userValidator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../services/user.service';
 
@@ -37,7 +37,7 @@ export class SignUpComponent {
     surname: new FormControl('', [Validators.required, surnameRegexValidator]),
     username: new FormControl('', [Validators.required, usernameRegexValidator]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, hasLetterAndDigitValidator()]),
+    password: new FormControl('', [Validators.required, passwordRegexValidator]),
   }, [])
 
   public signUp(): void {
@@ -63,7 +63,7 @@ export class SignUpComponent {
 
     this.userService.register(creds).subscribe({
       next: () => {
-        this.snackBar.open("Success", "", {
+        this.snackBar.open("You have successfully registered!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
         this.router.navigate(['login'])
