@@ -1044,11 +1044,13 @@
                 "text": "Log File"
               },
               "topLine": {
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
@@ -1062,13 +1064,27 @@
               "description": "",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
               "storesCredentials": false,
               "storesInventory": false,
-              "threats": []
+              "threats": [
+                {
+                  "id": "76b857ea-5f58-4136-8659-23a02fe259b6",
+                  "title": "Log entries should be encrypted",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "An attacker could gain access to log files and read information about acls and namespaces.",
+                  "mitigation": "Data part of each log should be encrypted with a secure algorithm so that only users with the encryption key can decrypt and read the data. The encryption key should be stored securely.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 12,
+                  "score": ""
+                }
+              ]
             }
           }
         ]
@@ -1076,6 +1092,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "",
-    "threatTop": 11
+    "threatTop": 12
   }
 }
