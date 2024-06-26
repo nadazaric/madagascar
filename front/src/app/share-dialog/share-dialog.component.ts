@@ -43,6 +43,12 @@ export class ShareDialogComponent implements OnInit {
       });
       return
     }
+    if (this.hasUser(this.inviteForm.value.username!)) {
+      this.snackBar.open("You already have permission for this user.", "", {
+        duration: 2700, panelClass: ['snack-bar-back-error']
+      });
+      return
+    }
     let acl : ACLDTO = {
       user: this.inviteForm.value.username!,
       fileId: this.file.id,
@@ -62,15 +68,23 @@ export class ShareDialogComponent implements OnInit {
     })
   }
 
+  hasUser(username: string) {
+    for (let i = 0; i < this.sharedWith.length; i++) {
+        if (this.sharedWith[i].username === username) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
   getSharedWith(){
     this.fileService.getSharedWith(this.file.id).subscribe(
       (data: SharedUserDTO[]) => {
         this.sharedWith = data;
-        console.log(data);
         for (let share of data){
           this.selectedUpdatePrivilege.push(share.relation);
         }
-        console.log(this.selectedUpdatePrivilege)
       },
       (error) => {
         console.error('Error fetching files', error);
