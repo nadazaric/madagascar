@@ -83,9 +83,7 @@ export class ShareDialogComponent implements OnInit {
     this.fileService.getSharedWith(this.file.id).subscribe(
       (data: SharedUserDTO[]) => {
         this.sharedWith = data;
-        for (let share of data){
-          this.selectedUpdatePrivilege.push(share.relation);
-        }
+        this.filterSharedList(data)
       },
       (error) => {
       }
@@ -111,6 +109,19 @@ export class ShareDialogComponent implements OnInit {
         });
       },
     })
+  }
+
+  filterSharedList(acls: SharedUserDTO[]) {
+    var list1 = []
+    var list2 = []
+    for (let i = 0; i < this.sharedWith.length; i++) {
+        if (acls[i].relation != "owner") {
+          list1.push(acls[i])
+          list2.push(acls[i].relation)
+        }
+    }
+    this.sharedWith = list1
+    this.selectedUpdatePrivilege = list2
   }
 
   deleteSharedWith(index: any){
