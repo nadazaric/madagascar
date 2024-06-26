@@ -65,10 +65,8 @@ export class FileUploadComponent implements OnInit {
 
   save(): any{
     this.add().subscribe((res: any) => {
-      console.log(res);
     });
     this.edit().subscribe((res: any) => {
-      console.log(res);
     }) 
   }
 
@@ -94,7 +92,6 @@ export class FileUploadComponent implements OnInit {
       description: this.form.value.description,
       tags: this.tags
     }
-    console.log(o);
     return this.http.post<any>(environment.apiGateway + '/metadata', o, options);
   }
 
@@ -111,27 +108,18 @@ export class FileUploadComponent implements OnInit {
       // tags: this.tags,
       content: this.profileImgPath
     }
-    console.log(o);
     this.fileService.createFile(o).subscribe({
       next: (value: any)  => {
-        console.log(value);
         this.snackBar.open("Successfully created file!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
         this.router.navigate(['/homepage']);
       },
       error: (err) => {
-        console.log(err);
         this.snackBar.open(err.error, "", {
           duration: 2700, panelClass: ['snack-bar-back-error']
         });
       },
     })
   }
-
-
-
-
- 
-
 }

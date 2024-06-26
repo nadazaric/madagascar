@@ -8,7 +8,7 @@ import ftn.rbs.madagascar_hub.models.File;
 import java.util.List;
 
 public interface IFileService {
-    public void addFile(FileUploadDTO dto);
+    public File addFile(FileUploadDTO dto);
     public File getFile(Long id);
     public List<FileDTO> getAllFilesByUser();
 }

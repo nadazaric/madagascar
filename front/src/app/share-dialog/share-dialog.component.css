@@ -8,10 +8,13 @@
   }
   
   .shared-user {
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    grid-template-columns: 2fr 2fr auto auto auto;
     margin-top: 16px;
+    font-size: 14px;
+    min-width: 600px;
   }
   
   .shared-user .name {

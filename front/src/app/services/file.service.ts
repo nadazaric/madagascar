@@ -31,32 +31,32 @@ export class FileService {
     return this.http.get<any>(environment.apiHost + "/file/user", options);
   }
 
-  getSharedWith(): Observable<any> {
+  getSharedWith(fileId: number): Observable<any> {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.get<any>(environment.apiHost + "/file/shared-with", options);
+    return this.http.get<any>(environment.apiHost + "/acl/shared-with/" + fileId, options);
   }
 
   shareWithOther(acl: any): Observable<any> {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.post<any>(environment.apiHost + "/file/share", acl, options);
+    return this.http.post<any>(environment.apiHost + "/acl", acl, options);
   }
 
   updateShareWith(acl: any): Observable<any> {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.put<any>(environment.apiHost + "/file/share", acl, options);
+    return this.http.put<any>(environment.apiHost + "/acl/update", acl, options);
   }
 
   deleteShareWith(acl: any): Observable<any> {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.delete<any>(environment.apiHost + "/file/share", acl);
+    return this.http.put<any>(environment.apiHost + "/acl/delete", acl);
   }
 
 }
@@ -74,10 +74,16 @@ export interface FileDTO {
 export interface ACLDTO {
   user: string,
   relation: string,
-  object: string
+  fileId: number
 }
 
 export interface SharedWithDTO {
   user: string,
+  relation: string
+}
+
+export interface SharedUserDTO{
+  fullName: string,
+  username: string,
   relation: string
 }
