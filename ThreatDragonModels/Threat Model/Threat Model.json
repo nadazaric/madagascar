@@ -81,8 +81,8 @@
                 "text": "Madagascar API"
               },
               "body": {
-                "stroke": "#333333",
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
@@ -96,12 +96,52 @@
               "description": "",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": []
+              "threats": [
+                {
+                  "id": "416e167a-c3ff-44fe-8c7c-23bd4d34b3da",
+                  "title": "DoS attack",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "The attacker can send a large volume of HTTP requests to the web server, consuming its resources and making it unavailable to handle legitimate user requests.",
+                  "mitigation": "Implement network security measures such as firewalls, intrusion detection systems (IDS), and rate limiting to filter and block malicious traffic. Consider using specialized DDoS protection services or content delivery networks (CDNs).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 16,
+                  "score": ""
+                },
+                {
+                  "id": "74a3d9b3-642a-405d-8ed0-e3f7c3bbae0a",
+                  "title": "Log Injection & Poisoning",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "An attacker could use the logging system to inject non-existant logs into the system, temper with logs or inserts executable code.",
+                  "mitigation": "Implement proper log sanitization techniques (e.g. escaping special characters) and log formatting to disable disrupting log structure and validity.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 17,
+                  "score": ""
+                },
+                {
+                  "id": "c95b3f66-ea45-4dfd-8656-94b25466330c",
+                  "title": "API should be protected with API keys",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "Unauthorized users could access to system, which would be available to anyone on the internet with no constraints.",
+                  "mitigation": "Use API keys for authorization verification. A client first need to create an API key to identify itself when communicating with the API. Each request verifies the key to determine the request's validity. ",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 18,
+                  "score": ""
+                }
+              ]
             }
           },
           {
@@ -143,7 +183,7 @@
           },
           {
             "position": {
-              "x": 630,
+              "x": 629.9999999999997,
               "y": 260.0000000000002
             },
             "size": {
@@ -233,11 +273,13 @@
                 "text": "LevelDB"
               },
               "topLine": {
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               },
               "bottomLine": {
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
@@ -251,13 +293,27 @@
               "description": "",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
               "storesCredentials": false,
               "storesInventory": false,
-              "threats": []
+              "threats": [
+                {
+                  "id": "64c14cbe-1593-4b45-95f6-c36344e00d24",
+                  "title": "API key should be hashed",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "An attacker could gain access to leveldDB files and read API keys",
+                  "mitigation": "API key should be hashed to enhance security and prevent unauthorized reads.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 13,
+                  "score": ""
+                }
+              ]
             }
           },
           {
@@ -465,69 +521,6 @@
               {
                 "x": 360,
                 "y": 360
-              }
-            ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": "block"
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "HTTP(s) Req/Res",
-              "description": "",
-              "outOfScope": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": true,
-              "isBidirectional": true,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": [
-                {
-                  "id": "e09fdff1-9f75-42f6-b4bd-f5114062d6b9",
-                  "title": "Data flow should use HTTP/S",
-                  "status": "Open",
-                  "severity": "High",
-                  "type": "Information disclosure",
-                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).",
-                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n",
-                  "modelType": "STRIDE",
-                  "new": false,
-                  "number": 9,
-                  "score": ""
-                }
-              ]
-            },
-            "id": "94ef5fcd-0f2b-4356-99bb-5b27c60189d6",
-            "labels": [
-              "HTTP(s) Req/Res"
-            ],
-            "source": {
-              "cell": "565c8ca5-a3ce-45b3-9325-2d994b9a1b9f"
-            },
-            "target": {
-              "cell": "7e05e146-94be-47d6-9b14-408036ed684b"
-            },
-            "vertices": [
-              {
-                "x": 700,
-                "y": 130
               }
             ]
           },
@@ -838,69 +831,6 @@
               "protocol": "",
               "threats": [
                 {
-                  "id": "fc2fe39e-30f0-4824-b258-f0673c61ed20",
-                  "title": "Data flow should use HTTP/S",
-                  "status": "Open",
-                  "severity": "High",
-                  "type": "Information disclosure",
-                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
-                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n\n\n",
-                  "modelType": "STRIDE",
-                  "new": false,
-                  "number": 8,
-                  "score": ""
-                }
-              ]
-            },
-            "id": "7b9044dc-99cb-4f25-a50b-1f5dd4f92b07",
-            "labels": [
-              "HTTP(s) Req/Res\n"
-            ],
-            "source": {
-              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
-            },
-            "target": {
-              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
-            },
-            "vertices": [
-              {
-                "x": 600,
-                "y": 286.5
-              }
-            ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "red",
-                "strokeWidth": 2.5,
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": "block"
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "HTTP(s) Req/Res\n",
-              "description": "",
-              "outOfScope": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": true,
-              "isBidirectional": true,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": [
-                {
                   "id": "f60f3217-0b25-4649-9d9c-76fb3cf4da0e",
                   "title": "Data flow should use HTTP/S",
                   "status": "Open",
@@ -988,6 +918,158 @@
             "target": {
               "cell": "0cfd7370-d4ea-45bc-b8af-137d83129258"
             }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "e09fdff1-9f75-42f6-b4bd-f5114062d6b9",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": ""
+                },
+                {
+                  "id": "88a88c4f-5e25-457d-ba5b-1f06dabce67c",
+                  "title": "XSS attack via Request",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "A malicious user could take advantage od input fields and request headers to inject malicious code to execute on the app.",
+                  "mitigation": "Input field validation (only accept specified lengths, formats, and types) and stringifying inputs to not let it be an executable block of code.  Use HTML entity encoding or JavaScript escaping to neutralize any potentially malicious scripts. Enable the X-XSS-Protection header in HTTP responses to activate the built-in XSS filter in modern web browsers.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 14,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "94ef5fcd-0f2b-4356-99bb-5b27c60189d6",
+            "labels": [
+              "HTTP(s) Req/Res"
+            ],
+            "source": {
+              "cell": "565c8ca5-a3ce-45b3-9325-2d994b9a1b9f"
+            },
+            "target": {
+              "cell": "7e05e146-94be-47d6-9b14-408036ed684b"
+            },
+            "vertices": [
+              {
+                "x": 700,
+                "y": 130
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res\n",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "fc2fe39e-30f0-4824-b258-f0673c61ed20",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n\n\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": ""
+                },
+                {
+                  "id": "505eb5b7-8b99-4b2c-b705-0d692392e1ea",
+                  "title": "New STRIDE threat",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 15,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "7b9044dc-99cb-4f25-a50b-1f5dd4f92b07",
+            "labels": [
+              "HTTP(s) Req/Res\n"
+            ],
+            "source": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "target": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "vertices": [
+              {
+                "x": 600,
+                "y": 286.5
+              }
+            ]
           },
           {
             "position": {
@@ -1092,6 +1174,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "",
-    "threatTop": 12
+    "threatTop": 18
   }
 }
