@@ -63,8 +63,6 @@ export class ShareDialogComponent implements OnInit {
   }
 
   getSharedWith(){
-    // this.sharedWith.push({user: "neca", relation: "Viewer", fileId: 2})
-    this.selectedUpdatePrivilege.push("Viewer");
     this.fileService.getSharedWith(this.file.id).subscribe(
       (data: SharedUserDTO[]) => {
         this.sharedWith = data;
@@ -72,6 +70,7 @@ export class ShareDialogComponent implements OnInit {
         for (let share of data){
           this.selectedUpdatePrivilege.push(share.relation);
         }
+        console.log(this.selectedUpdatePrivilege)
       },
       (error) => {
         console.error('Error fetching files', error);

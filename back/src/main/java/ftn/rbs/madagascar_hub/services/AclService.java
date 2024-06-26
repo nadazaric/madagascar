@@ -129,9 +129,9 @@ public class AclService implements IAclService {
             String username = parts[1];
             User user = userService.getUserByUsername(username);
             shared.add(new SharedUserDTO(
-                    user.getName() + user.getSurname(),
-                    user.getUsername(),
-                    parts[0]
+                    String.format("%s %s", user.getName(), user.getSurname()),
+                    parts[1],
+                    acl.getRelation()
             ));
         }
         return shared;

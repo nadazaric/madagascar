@@ -1,7 +1,7 @@
 <h1 mat-dialog-title style="font-size: 1.5em;">Share {{this.file.name}}</h1>
 <div>
     <form [formGroup]="inviteForm">
-        <div style="display: flex; width: 500px; align-items: center">
+        <div style="display: flex; width: 535px; align-items: center">
             <mat-form-field style="margin-top: 0; margin-right: 10px;">
                 <mat-label>Enter username</mat-label>
                 <input matInput type="text" name="username" formControlName="username"/>
@@ -22,10 +22,11 @@
   <h3>Shared with</h3>
   <div class="shared-with">
     <div class="shared-user" *ngFor="let shared of sharedWith; let i=index">
-      <span class="name dark-gray">{{this.selectedUpdatePrivilege[i]}}: {{shared.fullName}}</span>
-      <mat-form-field appearance="outline" style="margin-top: 0; margin-right: 10px; width: 150px;">
+      <span class="name dark-gray">{{shared.fullName}}</span>
+      <span class="name dark-gray" style="margin-left: 20px;">{{shared.username}}</span>
+      <mat-form-field appearance="outline" style="margin-top: 0; width: 150px;">
         <mat-label>New privilege</mat-label>
-        <mat-select [(ngModel)]="this.selectedUpdatePrivilege[i]">
+        <mat-select [(value)]="selectedUpdatePrivilege[i]">
           <mat-option value="viewer">Viewer</mat-option>
           <mat-option value="editor">Editor</mat-option>
         </mat-select>
