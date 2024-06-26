@@ -3,11 +3,10 @@ import consul
 import json
 from functools import lru_cache
 from dtos import AclEntryDTO
-import logging
+from services.logger import security_logger, app_logger
 
 # Initialize the Consul client
 client = consul.Consul(host='localhost', port=8500)
-logging.basicConfig(level=logging.INFO)
 
 def add(data):
     namespace_dict = data

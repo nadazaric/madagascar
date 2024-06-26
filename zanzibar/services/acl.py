@@ -35,6 +35,9 @@ def add(entry: AclEntryDTO, update = False) -> None:
             db.close()
 
 def check(entry: AclEntryDTO) -> bool:
+    if not validate_namespace_acl(entry):
+        raise Exception("Acl entry not valid.")
+    
     key = _get_key(entry)
 
     try:
