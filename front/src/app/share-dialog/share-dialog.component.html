@@ -1,4 +1,4 @@
-<h1 mat-dialog-title style="font-size: 1.5em;">Share "filename"</h1>
+<h1 mat-dialog-title style="font-size: 1.5em;">Share {{this.file.name}}</h1>
 <div>
     <form [formGroup]="inviteForm">
         <div style="display: flex; width: 500px; align-items: center">
@@ -9,35 +9,35 @@
             </mat-form-field>
             <mat-form-field appearance="outline" style="margin-top: 0; margin-right: 10px; width: 150px;">
                 <mat-label>Privilege</mat-label>
-                <mat-select>
+                <mat-select [(ngModel)]="selectedAddPrivilege">
                   <mat-option value="viewer">Viewer</mat-option>
                   <mat-option value="editor">Editor</mat-option>
                 </mat-select>
               </mat-form-field>
-            <mat-icon (click)="addUserFromForm()" class="add-button dark-blue" color="primary" style="font-size: 30px;">add_circle_outline</mat-icon>
+            <mat-icon (click)="addUserFromForm()" class="add-button dark-blue" color="primary" style="cursor: pointer; font-size: 30px;">add_circle_outline</mat-icon>
         </div>
     </form>
 </div>
 <div style="margin-top: 35px;">
   <h3>Shared with</h3>
   <div class="shared-with">
-    <div class="shared-user">
-      <span class="name dark-gray">tinamihajlovicetgmail.com</span>
+    <div class="shared-user" *ngFor="let shared of sharedWith; let i=index">
+      <span class="name dark-gray">{{this.selectedUpdatePrivilege[i]}}: {{shared.user}}</span>
       <mat-form-field appearance="outline" style="margin-top: 0; margin-right: 10px; width: 150px;">
-        <mat-label>Privilege</mat-label>
-        <mat-select>
+        <mat-label>New privilege</mat-label>
+        <mat-select [(ngModel)]="this.selectedUpdatePrivilege[i]">
           <mat-option value="viewer">Viewer</mat-option>
           <mat-option value="editor">Editor</mat-option>
         </mat-select>
       </mat-form-field>
-    <div>
-      <button mat-icon-button color="primary">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" style="padding-left: 10px !important;">
-        <mat-icon>remove_circle</mat-icon>
-      </button>
-    </div>
+      <div>
+        <button mat-icon-button color="primary" (click)="updateSharedWith(i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" style="padding-left: 10px !important;" (click)="deleteSharedWith(i)">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </div>

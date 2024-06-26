@@ -47,9 +47,9 @@
         </div>
         <div class="content-div" *ngIf="files.length > 0">
             <div class="card-container">
-                <div class="file-card basic-container" *ngFor="let file of files" style="cursor: auto !important">
+                <div class="file-card basic-container" *ngFor="let file of files; let i=index" style="cursor: auto !important">
                     
-                    <div class="share-div" (click)="openShareDialog()">
+                    <div class="share-div" (click)="openShareDialog(i)">
                         <i class="fa-solid fa-share-nodes dark-gray" style="font-size: 20px; cursor: pointer;"></i>
                     </div>
                     <div class="file-image">

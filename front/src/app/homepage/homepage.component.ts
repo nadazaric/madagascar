@@ -52,8 +52,11 @@ export class HomepageComponent implements OnInit {
     // })
   }
 
-  openShareDialog(){
-    this.dialog.open(ShareDialogComponent);
+  openShareDialog(index: any){
+    this.dialog.open(ShareDialogComponent, {
+      data: {file: this.files[index]
+      }
+    });
   }
 
   setPath(value: string) {
