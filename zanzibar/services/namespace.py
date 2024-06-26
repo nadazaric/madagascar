@@ -4,6 +4,7 @@ import json
 from functools import lru_cache
 from dtos import AclEntryDTO
 from services.logger import security_logger, app_logger
+from exceptions.madagascar_exception import MadagascarException
 
 # Initialize the Consul client
 client = consul.Consul(host='localhost', port=8500)
@@ -26,7 +27,7 @@ def get(namespace) -> Dict[str, object]:
             return None
         return json.loads(data['Value'].decode('utf-8'))
     except Exception as e:
-        raise Exception("Server error!")
+        raise MadagascarException("Server error!")
 
 def get_roles(namespace_name: str) -> Set[str]:
     namespace = get(namespace_name)

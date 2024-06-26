@@ -1,7 +1,7 @@
 import plyvel
 from services.namespace import validate_namespace_acl, get_roles_for_role, get_roles, extract_namespace_name
 import copy
-
+from exceptions.madagascar_exception import MadagascarException
 from dtos import AclEntryDTO
 from config import LEVELDB_NAME
 
@@ -19,7 +19,7 @@ def delete_existant(entry: AclEntryDTO) -> None:
 
 def add(entry: AclEntryDTO, update = False) -> None:
     if not validate_namespace_acl(entry):
-        raise Exception("Acl entry not valid.")
+        raise MadagascarException("Acl entry not valid.")
     
     if update:
         delete_existant(entry)
@@ -36,7 +36,7 @@ def add(entry: AclEntryDTO, update = False) -> None:
 
 def check(entry: AclEntryDTO) -> bool:
     if not validate_namespace_acl(entry):
-        raise Exception("Acl entry not valid.")
+        raise MadagascarException("Acl entry not valid.")
     
     key = _get_key(entry)
 

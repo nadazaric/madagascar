@@ -8,6 +8,7 @@ from services.api_key import generate_api_key, require_api_key
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 from services.logger import security_logger, app_logger, sanitize_input, log_request, EncryptedLogFormatter
+from exceptions.madagascar_exception import MadagascarException
 import os
 from flask_talisman import Talisman
 
@@ -67,9 +68,12 @@ def get_config():
         
         app_logger.info(f"Namespace config fetched")
         return jsonify(value), 200
+    except MadagascarException as me:
+        security_logger.warning(f"Server error: {str(me)} from IP: {request.remote_addr}")
+        return jsonify({'error': str(me)}), 500
     except Exception as e:
         security_logger.warning(f"Server error: {str(e)} from IP: {request.remote_addr}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': "Internal server error"}), 500
 
 @app.route('/acl', methods=['POST'])
 @require_api_key
@@ -85,9 +89,12 @@ def add_acl_entry():
     except KeyError:
         security_logger.warning(f"Invalid JSON format from IP: {request.remote_addr}")
         return jsonify({'error': 'Invalid JSON format'}), 400
+    except MadagascarException as me:
+        security_logger.warning(f"Server error: {str(me)} from IP: {request.remote_addr}")
+        return jsonify({'error': str(me)}), 500
     except Exception as e:
         security_logger.warning(f"Server error: {str(e)} from IP: {request.remote_addr}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': "Internal server error."}), 500
 
 @app.route('/acl', methods=['PUT'])
 @require_api_key
@@ -103,9 +110,12 @@ def update_acl_entry():
     except KeyError:
         security_logger.warning(f"Invalid JSON format from IP: {request.remote_addr}")
         return jsonify({'error': 'Invalid JSON format'}), 400
+    except MadagascarException as me:
+        security_logger.warning(f"Server error: {str(me)} from IP: {request.remote_addr}")
+        return jsonify({'error': str(me)}), 500
     except Exception as e:
         security_logger.warning(f"Server error: {str(e)} from IP: {request.remote_addr}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': "Internal server error."}), 500
 
 @app.route('/acl/check', methods=['POST'])
 @require_api_key
@@ -120,9 +130,12 @@ def check_acl_entry():
     except KeyError:
         security_logger.warning(f"Invalid JSON format from IP: {request.remote_addr}")
         return jsonify({'error': 'Invalid JSON format'}), 400
+    except MadagascarException as me:
+        security_logger.warning(f"Server error: {str(me)} from IP: {request.remote_addr}")
+        return jsonify({'error': str(me)}), 500
     except Exception as e:
         security_logger.warning(f"Server error: {str(e)} from IP: {request.remote_addr}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': "Internal server error."}), 500
     
 @app.route('/acl', methods=['DELETE'])
 @require_api_key
@@ -137,7 +150,6 @@ def delete_acl_entry():
     except KeyError:
         security_logger.warning(f"Invalid JSON format from IP: {request.remote_addr}")
         return jsonify({'error': 'Invalid JSON format'}), 400
-
 
 @app.route('/api-key', methods=['GET'])
 def get_app_key():
