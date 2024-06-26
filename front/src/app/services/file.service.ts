@@ -24,4 +24,21 @@ export class FileService {
     return this.http.post<any>(environment.apiHost + "/file", file, options);
   }
 
+  getFilesByUser(): Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.get<any>(environment.apiHost + "/file/user", options);
+  }
+
+}
+
+export interface FileDTO {
+  size: number;
+  createdAt: Date;
+  id: number;
+  lastModified: Date;
+  ownerId: number;
+  description: string;
+  name: string;
 }

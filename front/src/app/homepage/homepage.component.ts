@@ -9,6 +9,7 @@ import { FileDetailsDialogComponent } from '../file-details-dialog/file-details-
 import { ShareWithOthersFormComponent } from '../share-with-others-form/share-with-others-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShareDialogComponent } from '../share-dialog/share-dialog.component';
+import { FileDTO, FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-homepage',
@@ -17,7 +18,7 @@ import { ShareDialogComponent } from '../share-dialog/share-dialog.component';
 })
 export class HomepageComponent implements OnInit {
 
-  files: String[] = [];
+  files: FileDTO[] = [];
   folders: String[] = [];
   path: string = '';
   navItems: String[] = [];
@@ -27,6 +28,7 @@ export class HomepageComponent implements OnInit {
   constructor(private router: Router,
     private cognitoService: CognitoService,
     private lambdaService: LambdaService,
+    private fileService: FileService,
     private utilService: UtilService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar) {
@@ -35,7 +37,15 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
     this.loaded = false;
 
-    this.files = ["fajl.png", "fajl.pdf"]
+    this.fileService.getFilesByUser().subscribe(
+      (data: FileDTO[]) => {
+        this.files = data;
+        console.log(data)
+      },
+      (error) => {
+        console.error('Error fetching files', error);
+      }
+    );
     // this.utilService.recieveCurrentPath().subscribe((value) => {
     //   this.setPath(value);
     //   this.readContent();
@@ -150,7 +160,7 @@ export class HomepageComponent implements OnInit {
           if (element.endsWith("/"))
             this.folders.push(element);
           else
-            this.files.push(element);
+            this.files;
         });
         console.log(this.files)
         console.log(this.folders)
@@ -205,9 +215,10 @@ export class HomepageComponent implements OnInit {
       next: (value: String[])  => {
         console.log(value)
         for (let str of value){
-          if (!this.files.includes(str)) {
-            this.files.push(str);
-          }
+          continue;
+          // if (!this.files.includes(str)) {
+          //   this.files.push(str);
+          // }
         }
         
         console.log(this.files)

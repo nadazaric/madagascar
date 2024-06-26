@@ -7,6 +7,7 @@ import { UtilService } from '../services/util.service';
 import { LambdaService } from '../services/lambda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileService } from '../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-file-upload',
@@ -27,6 +28,7 @@ export class FileUploadComponent implements OnInit {
 
   constructor(private http: HttpClient, private utilService: UtilService,
     private fileService: FileService,
+    private router: Router,
     private snackBar: MatSnackBar) { }
 
   profileImgPath: string = "";
@@ -107,6 +109,7 @@ export class FileUploadComponent implements OnInit {
         this.snackBar.open("Successfully created file!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
+        this.router.navigate(['/homepage']);
       },
       error: (err) => {
         console.log(err);
