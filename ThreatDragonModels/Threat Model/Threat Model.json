@@ -968,7 +968,7 @@
             "connector": "smooth",
             "data": {
               "type": "tm.Flow",
-              "name": "Write l",
+              "name": "Write log",
               "description": "",
               "outOfScope": false,
               "reasonOutOfScope": "",
@@ -987,7 +987,7 @@
               "cell": "f0b52ebd-3f7c-43f1-857e-04995525d222"
             },
             "labels": [
-              "Write l"
+              "Write log"
             ]
           },
           {
