@@ -7,10 +7,10 @@
         <h2>Welcome back</h2>
         <form [formGroup]="loginForm" (ngSubmit)="signIn()">
             <mat-form-field >
-                <mat-label>Username</mat-label>
+                <mat-label>Email</mat-label>
                 <input matInput type="text" name="username" formControlName="username" />
-                <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">entering username is required</mat-error>
-                <mat-error *ngIf="loginForm.get('username')?.errors?.['usernameRegexError']  && !loginForm.get('username')?.errors?.['required']">invalid username format</mat-error>
+                <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">entering email is required</mat-error>
+                <!-- <mat-error *ngIf="loginForm.get('username')?.errors?.['usernameRegexError']  && !loginForm.get('username')?.errors?.['required']">invalid username format</mat-error> -->
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Password</mat-label>

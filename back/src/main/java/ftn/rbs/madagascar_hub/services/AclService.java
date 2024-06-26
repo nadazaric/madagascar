@@ -1,20 +1,28 @@
 package ftn.rbs.madagascar_hub.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.rbs.madagascar_hub.dtos.AclDTO;
 import ftn.rbs.madagascar_hub.dtos.FrontAclDTO;
+import ftn.rbs.madagascar_hub.dtos.SharedUserDTO;
+import ftn.rbs.madagascar_hub.exceptions.NotValidAclException;
 import ftn.rbs.madagascar_hub.models.User;
 import ftn.rbs.madagascar_hub.models.File;
-import ftn.rbs.madagascar_hub.repositories.FileRepository;
 import ftn.rbs.madagascar_hub.repositories.UserRepository;
 import ftn.rbs.madagascar_hub.services.interfaces.IAclService;
 import ftn.rbs.madagascar_hub.services.interfaces.IUserService;
-import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -44,22 +52,20 @@ public class AclService implements IAclService {
     @Autowired
     private FileService fileService;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private boolean doesUserExist(String username) {
         Optional<User> foundUser = allUsers.findByUsername(username);
-        if (foundUser.isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return foundUser.isPresent();
     }
     private boolean isRequesterOwner(File file) {
         Long loggedUserId = userService.getCurrentUser().getId();
-        return file.getOwner().getId() == loggedUserId;
+        return Objects.equals(file.getOwner().getId(), loggedUserId);
     }
 
     private void validateAclDto(FrontAclDTO dto, File file) {
         if (!isRequesterOwner(file) || !doesUserExist(dto.getUser()))
-            throw new RuntimeException("ACL not valid.");
+            throw new NotValidAclException();
     }
 
     private ResponseEntity<?> sendRequestToZanzibar(AclDTO dto, String endpoint, HttpMethod httpMethod) {
@@ -76,7 +82,7 @@ public class AclService implements IAclService {
     }
 
     private String formatObjectName(File file) {
-        return file.getName() + file.getId();
+        return zanzibarNamespace + ":" + file.getName() + file.getId();
     }
 
     public ResponseEntity<?> add(FrontAclDTO dto) {
@@ -114,5 +120,46 @@ public class AclService implements IAclService {
             throw new RuntimeException("ACL not valid.");
 
         return sendRequestToZanzibar(zanzibarDto, "acl/check", HttpMethod.POST);
+    }
+
+    @Override
+    public List<SharedUserDTO> getSharedWith(Long id) {
+        File file = fileService.getFile(id);
+        List<AclDTO> acls = getSharedAcls(file);
+        if (acls == null) return new ArrayList<>();
+        List<SharedUserDTO> shared = new ArrayList<>();
+        for(AclDTO acl : acls) {
+            SharedUserDTO sharedUserDTO = convertAclToSharedUserDTO(acl);
+            shared.add(sharedUserDTO);
+        }
+        return shared;
+    }
+
+    @Override
+    public SharedUserDTO getSharedInfoJsonAclString(String json) throws JsonProcessingException {
+        JsonNode jsonNode = objectMapper.readTree(json);
+        JsonNode entryNode = jsonNode.get("entry");
+        AclDTO aclDto = objectMapper.treeToValue(entryNode, AclDTO.class);
+        return convertAclToSharedUserDTO(aclDto);
+    }
+
+    private SharedUserDTO convertAclToSharedUserDTO(AclDTO acl) {
+        String[] parts = acl.getUser().split(":");
+        String username = parts[1];
+        User user = userService.getUserByUsername(username);
+        return new SharedUserDTO(
+                String.format("%s %s", user.getName(), user.getSurname()),
+                parts[1],
+                acl.getRelation()
+        );
+    }
+    
+    private List<AclDTO> getSharedAcls(File file){
+        String url = String.format("%s/%s/%s", zanzibarPath, "shared", formatObjectName(file));
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(madagascarApiKeyField, madagascarApiKey);
+        HttpEntity<AclDTO> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<List<AclDTO>> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {});
+        return response.getBody();
     }
 }

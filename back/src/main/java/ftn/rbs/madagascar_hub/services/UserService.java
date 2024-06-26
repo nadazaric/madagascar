@@ -67,6 +67,13 @@ public class UserService implements IUserService, UserDetailsService {
         allUsers.save(user);
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        Optional<User> user = allUsers.findByUsername(username);
+        if (user.isEmpty()) throw new UsernameNotFoundException("User not found with this username: " + username);
+        return user.get();
+    }
+
     private boolean alreadyExist(String username, String email) {
         Optional<User> usernameCheck = allUsers.findByUsername(username);
         Optional<User> emailCheck = allUsers.findByEmail(email);

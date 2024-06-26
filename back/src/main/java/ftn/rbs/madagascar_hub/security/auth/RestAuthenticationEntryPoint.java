@@ -3,6 +3,7 @@ package ftn.rbs.madagascar_hub.security.auth;
 import java.io.IOException;
 import java.util.List;
 
+import ftn.rbs.madagascar_hub.exceptions.NotValidAclException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,11 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, NotFoundException notFoundException) throws IOException {
         // 404
         setResponseError(response, HttpServletResponse.SC_NOT_FOUND, String.format("Not found: %s", notFoundException.getMessage()));
+    }
+
+    @ExceptionHandler(NotValidAclException.class)
+    protected ResponseEntity<Object> handleNotValidAclException(NotValidAclException e){
+        return new ResponseEntity<>("Not valid ACL!", HttpStatus.BAD_REQUEST);
     }
       
     @ExceptionHandler(MissingRequestHeaderException.class)

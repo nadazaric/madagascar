@@ -145,6 +145,12 @@ def get_app_key():
     app_logger.info(f"Generated api key for {request.url}")
     return jsonify({'message': 'Api-Key created.', 'api-key': app_key}), 201
 
+@app.route('/shared/<prefix>', methods=['GET'])
+def get_all_relations_for_doc(prefix):
+    acls = acl.get_all_relations_for_doc(prefix)
+    return jsonify(acls), 200
+
+
 if __name__ == '__main__':
     # cert_folder = os.getenv('CERT_FOLDER')
     # ssl_context = (

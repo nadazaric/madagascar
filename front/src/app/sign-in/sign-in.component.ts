@@ -20,7 +20,7 @@ export class SignInComponent {
   credentials: Credentials;
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   })
 
@@ -44,9 +44,6 @@ export class SignInComponent {
           this.processLogin(result);
         },
          error: (error) => {
-          console.log(error);
-          console.log("tu")
-          console.log(error.error);
           this.snackBar.open("Bad credentials. Please try again!", "", {
               duration: 2700, panelClass: ['snack-bar-server-error']
           });
@@ -57,10 +54,8 @@ export class SignInComponent {
 
   processLogin(result: any) {
     localStorage.setItem('user', JSON.stringify(result.accessToken));
-    // localStorage.setItem('refreshToken', JSON.stringify(result.refreshToken));
     this.authService.setUser();
     let user = this.authService.getUser();
-    console.log(this.authService.getUser());
     this.authService.setLoggedIn(true);
     if (this.authService.getRole() == "ROLE_ADMIN")
       this.router.navigate(['users']);
