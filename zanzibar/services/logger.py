@@ -2,13 +2,44 @@ import logging
 import logging.config
 import html
 from flask import request
+from cryptography.fernet import Fernet
+import base64
+import json
+from dotenv import load_dotenv
+import os
 
-def log_request(request, level=logging.INFO):
+load_dotenv()
+
+class EncryptedLogFormatter():
+    def __init__(self):
+        key = self._load_or_generate_key()
+        self.cipher = Fernet(key)
+
+    def encrypt(self, message):
+        encrypted_message = self.cipher.encrypt(message.encode()).decode()
+        return encrypted_message
+
+    def decrypt(self, encrypted_message):
+        decrypted_message = self.cipher.decrypt(encrypted_message.encode()).decode()
+        return decrypted_message
+    
+    def _load_or_generate_key(self):
+        key_from_env = os.getenv('ENCRYPT_KEY')
+        if key_from_env:
+            return key_from_env.encode()
+
+        new_key = Fernet.generate_key()
+        with open('.env', 'a') as f:
+                f.write(f'\nENCRYPT_KEY={new_key.decode()}')
+                os.environ['ENCRYPT_KEY'] = new_key.decode()
+        return new_key
+
+def log_request(request, logger_encryptor, level=logging.INFO):
     log_data = {
         'ip': request.remote_addr,
         'method': request.method,
         'url': sanitize_input(request.url),
-        'data': sanitize_input(request.get_json() if request.is_json else 'non-JSON data')
+        'data': logger_encryptor.encrypt(json.dumps(sanitize_input(request.get_json() if request.is_json else 'non-JSON data')))
     }
     app_logger.log(level, f"Request: {log_data}")
 

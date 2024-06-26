@@ -1,17 +1,18 @@
 from flask import Flask, request, jsonify
 from dtos import AclEntryDTO
 from services import namespace as namespace_service
-
+import json
 import services.acl as acl
 from services.api_key import generate_api_key, require_api_key
 
-from services.logger import security_logger, app_logger, sanitize_input, log_request
+from services.logger import security_logger, app_logger, sanitize_input, log_request, EncryptedLogFormatter
 
 app = Flask(__name__)
+logger_encryptor = EncryptedLogFormatter()
 
 @app.before_request
 def before_request():
-    log_request(request)
+    log_request(request, logger_encryptor)
 
 @app.route('/healthcheck', methods=['GET'])
 @require_api_key
@@ -24,7 +25,7 @@ def add_namespace():
     data = sanitize_input(request.json)
     try:
         namespace_service.add(data)
-        app_logger.info(f"Namespace config added: {data}")
+        app_logger.info(f"Namespace config added: {logger_encryptor.encrypt(json.dumps(data))}")
         return jsonify({}), 200
     except:
         security_logger.warning(f"Bad request from IP: {request.remote_addr}")
@@ -37,7 +38,7 @@ def get_config():
     try:
         value = namespace_service.get(namespace)
         if not value:
-            return jsonify({'error': f'Configuration for namespace "{namespace}" not found'}), 404
+            return jsonify({'error': f'Configuration for namespace "{logger_encryptor.encrypt(json.dumps(namespace))}" not found'}), 404
         
         app_logger.info(f"Namespace config fetched")
         return jsonify(value), 200
@@ -53,7 +54,7 @@ def add_acl_entry():
     try:
         acl_entry = AclEntryDTO.from_dict(data)
         acl.add(acl_entry)
-        app_logger.info(f"ACL entry added: {acl_entry}")
+        app_logger.info(f"ACL entry added: {logger_encryptor.encrypt(str(acl_entry))}")
         return jsonify({'message': 'ACL entry added successfully', 'entry': acl_entry.to_dict()}), 200
     
     except KeyError:
@@ -71,7 +72,7 @@ def update_acl_entry():
     try:
         acl_entry = AclEntryDTO.from_dict(data)
         acl.add(acl_entry, True)
-        app_logger.info(f"ACL entry updated: {acl_entry}")
+        app_logger.info(f"ACL entry updated: {logger_encryptor.encrypt(str(acl_entry))}")
         return jsonify({'message': 'ACL entry updated successfully', 'entry': acl_entry.to_dict()}), 200
     
     except KeyError:
@@ -89,7 +90,7 @@ def check_acl_entry():
     try:
         acl_entry = AclEntryDTO.from_dict(data)
         response = acl.check(acl_entry)
-        app_logger.info(f"ACL check: {acl_entry} - Authorized: {response}")
+        app_logger.info(f"ACL check: {logger_encryptor.encrypt(str(acl_entry))} - Authorized: {response}")
         return jsonify({'authorized': response}), 200
     except KeyError:
         security_logger.warning(f"Invalid JSON format from IP: {request.remote_addr}")
@@ -105,13 +106,12 @@ def delete_acl_entry():
 
     try:
         acl_entry = AclEntryDTO.from_dict(data)
+        acl.delete(acl_entry)
+        app_logger.info(f"ACL entry deleted: {logger_encryptor.encrypt(str(acl_entry))}")
+        return jsonify({'message': 'ACL entry deleted successfully', 'entry': acl_entry.to_dict()}), 200
     except KeyError:
         security_logger.warning(f"Invalid JSON format from IP: {request.remote_addr}")
         return jsonify({'error': 'Invalid JSON format'}), 400
-    
-    acl.delete(acl_entry)
-    app_logger.info(f"ACL entry deleted: {acl_entry}")
-    return jsonify({'message': 'ACL entry deleted successfully', 'entry': acl_entry.to_dict()}), 200
 
 
 @app.route('/api-key', methods=['GET'])
