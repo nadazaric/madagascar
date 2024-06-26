@@ -56,7 +56,7 @@ export class FileService {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.delete<any>(environment.apiHost + "/file/share", acl);
+    return this.http.put<any>(environment.apiHost + "/acl/delete", acl);
   }
 
 }

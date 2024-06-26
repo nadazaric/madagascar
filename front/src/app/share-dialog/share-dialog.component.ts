@@ -102,29 +102,26 @@ export class ShareDialogComponent implements OnInit {
   }
 
   deleteSharedWith(index: any){
-    // TODO: proveriti da li moze delete sa bodijem!!!
-    // let acl : ACLDTO = {
-    //   user: this.sharedWith[index].user,
-    //   fileId: this.file.id,
-    //   relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
-    // }
 
-    // this.fileService.deleteShareWith(acl).subscribe({
-    //   next: (value: any)  => {
-    //     console.log(value);
-    //     this.snackBar.open("Successfully deleted the share!", "", {
-    //       duration: 2700, panelClass: ['snack-bar-success']
-    //     });
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //     this.snackBar.open(err.error, "", {
-    //       duration: 2700, panelClass: ['snack-bar-back-error']
-    //     });
-    //   },
-    // })
+    let acl : ACLDTO = {
+      user: this.sharedWith[index].username,
+      fileId: this.file.id,
+      relation: this.selectedUpdatePrivilege[index]
+    }
+
+    this.fileService.deleteShareWith(acl).subscribe({
+      next: (value: any)  => {
+        this.sharedWith.splice(index, 1)
+        this.selectedUpdatePrivilege.splice(index, 1)
+        this.snackBar.open("Successfully deleted the share!", "", {
+          duration: 2700, panelClass: ['snack-bar-success']
+        });
+      },
+      error: (err) => {
+        this.snackBar.open(err.error, "", {
+          duration: 2700, panelClass: ['snack-bar-back-error']
+        });
+      },
+    })
   }
-
 }
-
-
