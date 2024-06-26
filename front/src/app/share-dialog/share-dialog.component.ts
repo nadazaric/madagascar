@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FileMetaData, LambdaService } from './../services/lambda.service';
-import { ACLDTO, FileService, SharedWithDTO } from './../services/file.service';
+import { ACLDTO, FileService, SharedUserDTO, SharedWithDTO } from './../services/file.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
 import { ShareWithOthersFormComponent } from '../share-with-others-form/share-with-others-form.component';
@@ -18,7 +18,7 @@ export class ShareDialogComponent implements OnInit {
   file: FileDTO = {} as FileDTO;
   selectedAddPrivilege: string = "viewer";
   selectedUpdatePrivilege: string[] = [];
-  sharedWith: ACLDTO[] = [];
+  sharedWith: SharedUserDTO[] = [];
 
 
   constructor(public dialogRef: MatDialogRef<ShareDialogComponent>,
@@ -63,10 +63,10 @@ export class ShareDialogComponent implements OnInit {
   }
 
   getSharedWith(){
-    this.sharedWith.push({user: "neca", relation: "Viewer", fileId: 2})
+    // this.sharedWith.push({user: "neca", relation: "Viewer", fileId: 2})
     this.selectedUpdatePrivilege.push("Viewer");
     this.fileService.getSharedWith(this.file.id).subscribe(
-      (data: ACLDTO[]) => {
+      (data: SharedUserDTO[]) => {
         this.sharedWith = data;
         console.log(data);
         for (let share of data){
@@ -80,50 +80,50 @@ export class ShareDialogComponent implements OnInit {
   }
 
   updateSharedWith(index: any){
-    let acl : ACLDTO = {
-      user: this.sharedWith[index].user,
-      fileId: this.file.id,
-      relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
-    }
+    // let acl : ACLDTO = {
+    //   user: this.sharedWith[index].user,
+    //   fileId: this.file.id,
+    //   relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
+    // }
 
-    this.fileService.updateShareWith(acl).subscribe({
-      next: (value: any)  => {
-        console.log(value);
-        this.snackBar.open("Successfully updated the share!", "", {
-          duration: 2700, panelClass: ['snack-bar-success']
-        });
-      },
-      error: (err) => {
-        console.log(err);
-        this.snackBar.open(err.error, "", {
-          duration: 2700, panelClass: ['snack-bar-back-error']
-        });
-      },
-    })
+    // this.fileService.updateShareWith(acl).subscribe({
+    //   next: (value: any)  => {
+    //     console.log(value);
+    //     this.snackBar.open("Successfully updated the share!", "", {
+    //       duration: 2700, panelClass: ['snack-bar-success']
+    //     });
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //     this.snackBar.open(err.error, "", {
+    //       duration: 2700, panelClass: ['snack-bar-back-error']
+    //     });
+    //   },
+    // })
   }
 
   deleteSharedWith(index: any){
     // TODO: proveriti da li moze delete sa bodijem!!!
-    let acl : ACLDTO = {
-      user: this.sharedWith[index].user,
-      fileId: this.file.id,
-      relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
-    }
+    // let acl : ACLDTO = {
+    //   user: this.sharedWith[index].user,
+    //   fileId: this.file.id,
+    //   relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
+    // }
 
-    this.fileService.deleteShareWith(acl).subscribe({
-      next: (value: any)  => {
-        console.log(value);
-        this.snackBar.open("Successfully deleted the share!", "", {
-          duration: 2700, panelClass: ['snack-bar-success']
-        });
-      },
-      error: (err) => {
-        console.log(err);
-        this.snackBar.open(err.error, "", {
-          duration: 2700, panelClass: ['snack-bar-back-error']
-        });
-      },
-    })
+    // this.fileService.deleteShareWith(acl).subscribe({
+    //   next: (value: any)  => {
+    //     console.log(value);
+    //     this.snackBar.open("Successfully deleted the share!", "", {
+    //       duration: 2700, panelClass: ['snack-bar-success']
+    //     });
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //     this.snackBar.open(err.error, "", {
+    //       duration: 2700, panelClass: ['snack-bar-back-error']
+    //     });
+    //   },
+    // })
   }
 
 }

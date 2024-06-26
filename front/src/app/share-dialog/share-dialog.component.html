@@ -22,7 +22,7 @@
   <h3>Shared with</h3>
   <div class="shared-with">
     <div class="shared-user" *ngFor="let shared of sharedWith; let i=index">
-      <span class="name dark-gray">{{this.selectedUpdatePrivilege[i]}}: {{shared.user}}</span>
+      <span class="name dark-gray">{{this.selectedUpdatePrivilege[i]}}: {{shared.fullName}}</span>
       <mat-form-field appearance="outline" style="margin-top: 0; margin-right: 10px; width: 150px;">
         <mat-label>New privilege</mat-label>
         <mat-select [(ngModel)]="this.selectedUpdatePrivilege[i]">

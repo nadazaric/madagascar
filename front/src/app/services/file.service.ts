@@ -81,3 +81,9 @@ export interface SharedWithDTO {
   user: string,
   relation: string
 }
+
+export interface SharedUserDTO{
+  fullName: string,
+  username: string,
+  relation: string
+}

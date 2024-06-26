@@ -2,6 +2,7 @@ package ftn.rbs.madagascar_hub.controllers;
 
 import ftn.rbs.madagascar_hub.dtos.AclDTO;
 import ftn.rbs.madagascar_hub.dtos.FrontAclDTO;
+import ftn.rbs.madagascar_hub.dtos.SharedUserDTO;
 import ftn.rbs.madagascar_hub.services.interfaces.IAclService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class AclController {
 
     @GetMapping("/shared-with/{fileId}")
     public ResponseEntity<?> sharedWith(@PathVariable Long fileId) {
-        List<AclDTO> aclDTOS = aclService.getSharedWith(fileId);
+        List<SharedUserDTO> aclDTOS = aclService.getSharedWith(fileId);
         return new ResponseEntity<>(aclDTOS, HttpStatus.OK);
     }
 }
