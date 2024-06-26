@@ -79,26 +79,24 @@ export class ShareDialogComponent implements OnInit {
   }
 
   updateSharedWith(index: any){
-    // let acl : ACLDTO = {
-    //   user: this.sharedWith[index].user,
-    //   fileId: this.file.id,
-    //   relation: this.selectedUpdatePrivilege[index] //proveriti dal treba lowercase ili uppercase
-    // }
+    let acl : ACLDTO = {
+      user: this.sharedWith[index].username,
+      fileId: this.file.id,
+      relation: this.selectedUpdatePrivilege[index]
+    }
 
-    // this.fileService.updateShareWith(acl).subscribe({
-    //   next: (value: any)  => {
-    //     console.log(value);
-    //     this.snackBar.open("Successfully updated the share!", "", {
-    //       duration: 2700, panelClass: ['snack-bar-success']
-    //     });
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //     this.snackBar.open(err.error, "", {
-    //       duration: 2700, panelClass: ['snack-bar-back-error']
-    //     });
-    //   },
-    // })
+    this.fileService.updateShareWith(acl).subscribe({
+      next: (value: any)  => {
+        this.snackBar.open("Successfully updated the share!", "", {
+          duration: 2700, panelClass: ['snack-bar-success']
+        });
+      },
+      error: (err) => {
+        this.snackBar.open(err.error, "", {
+          duration: 2700, panelClass: ['snack-bar-back-error']
+        });
+      },
+    })
   }
 
   deleteSharedWith(index: any){

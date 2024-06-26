@@ -49,7 +49,7 @@ export class FileService {
     const options: any = {
       responseType: 'json',
     };
-    return this.http.put<any>(environment.apiHost + "/file/share", acl, options);
+    return this.http.put<any>(environment.apiHost + "/acl/update", acl, options);
   }
 
   deleteShareWith(acl: any): Observable<any> {
