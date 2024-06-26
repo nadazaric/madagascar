@@ -26,34 +26,54 @@ public class AclController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> add(@Valid @RequestBody FrontAclDTO dto) throws IOException {
-        ResponseEntity<?> response = aclService.add(dto);
-        String responseBody = (String) response.getBody();
-        SharedUserDTO sharedUserDTO = aclService.getSharedInfoJsonAclString(responseBody);
-        return new ResponseEntity<>(sharedUserDTO, HttpStatus.CREATED);
+        try {
+            ResponseEntity<?> response = aclService.add(dto);
+            String responseBody = (String) response.getBody();
+            SharedUserDTO sharedUserDTO = aclService.getSharedInfoJsonAclString(responseBody);
+            return new ResponseEntity<>(sharedUserDTO, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
     @PostMapping(path = "/check", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> check(@Valid @RequestBody FrontAclDTO dto) {
-        ResponseEntity<?> response = aclService.check(dto);
-        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        try {
+            ResponseEntity<?> response = aclService.check(dto);
+            return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping(path = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> delete(@Valid @RequestBody FrontAclDTO dto) {
-        ResponseEntity<?> response = aclService.delete(dto);
-        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        try{
+            ResponseEntity<?> response = aclService.delete(dto);
+            return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> update(@Valid @RequestBody FrontAclDTO dto) {
-        ResponseEntity<?> response = aclService.update(dto);
-        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        try {
+            ResponseEntity<?> response = aclService.update(dto);
+            return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/shared-with/{fileId}")
     public ResponseEntity<?> sharedWith(@PathVariable Long fileId) {
-        List<SharedUserDTO> aclDTOS = aclService.getSharedWith(fileId);
-        return new ResponseEntity<>(aclDTOS, HttpStatus.OK);
+        try {
+            List<SharedUserDTO> aclDTOS = aclService.getSharedWith(fileId);
+            return new ResponseEntity<>(aclDTOS, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
