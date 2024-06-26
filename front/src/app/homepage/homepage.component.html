@@ -19,7 +19,7 @@
     <div id="homepage-content" class="basic-container" *ngIf="!isSharedWithMeClicked">
         <div id="nav-container">
             <div class="single-nav-container"> 
-                <p class="nav-link" (click)="navToFolder('Root', 0)">Files</p>
+                <p class="nav-link" style="cursor: auto !important">Files</p>
                 <p *ngIf="navItems.length>0">></p>
             </div>
             <div class="single-nav-container" *ngFor="let token of navItems; let i = index"> 
@@ -47,20 +47,20 @@
         </div>
         <div class="content-div" *ngIf="files.length > 0">
             <div class="card-container">
-                <div class="file-card basic-container" *ngFor="let file of files" (click)="openFileDetails(file)">
+                <div class="file-card basic-container" *ngFor="let file of files; let i=index" style="cursor: auto !important">
                     
-                    <div class="share-div" (click)="openShareDialog()">
-                        <i class="fa-solid fa-share-nodes" style="font-size: 20px;"></i>
+                    <div class="share-div" (click)="openShareDialog(i)">
+                        <i class="fa-solid fa-share-nodes dark-gray" style="font-size: 20px; cursor: pointer;"></i>
                     </div>
                     <div class="file-image">
                         <i class="fa-solid fa-file file-icon"></i>
                     </div>
                     <div class="file-footer">
-                        <p class="file-name">{{ file.split('/')[file.split('/').length-1] }}</p>
-                        <div id="editDiv" (click)="editFile(file); $event.stopPropagation()"> 
+                        <p class="file-name">{{ file.name }}</p>
+                        <div id="editDiv" style="cursor: auto !important">
                             <img src="../../assets/vectors/edit_icon.svg">
                         </div>
-                        <div id="deleteDiv" (click)="deleteFile(file); $event.stopPropagation()">
+                        <div id="deleteDiv" style="cursor: auto !important">
                             <img src="../../assets/vectors/delete_icon.svg">
                         </div>
                     </div>
@@ -99,12 +99,12 @@
         <div class="content-div" *ngIf="files.length > 0">
             <p class="content-title">Files:</p>
             <div class="card-container">
-                <div class="file-card basic-container" *ngFor="let file of files" (click)="openFileDetails(file)">
+                <div class="file-card basic-container" *ngFor="let file of files">
                     <div class="file-image">
                         <i class="fa-solid fa-file file-icon"></i>
                     </div>
                     <div class="file-footer">
-                        <p class="file-name">{{ file.split('/')[file.split('/').length-1] }}</p>
+                        <p class="file-name">{{ file.name }}</p>
                     </div>
                 </div>
             </div>

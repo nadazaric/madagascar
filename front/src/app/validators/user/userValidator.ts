@@ -17,8 +17,18 @@ import { ErrorStateMatcher } from '@angular/material/core'
     return null;
   }
 
+  export function phoneNumberValidatior( control: AbstractControl): { [key: string]: boolean } | null {
+    const regex = /^\+\d{1,12}$/;
+    if (control.value !== undefined && !regex.test(control.value)) {
+        return { phonenumRegexError: true };
+    }
+    return null;
+  }
+
+
+
   export function passwordRegexValidator( control: AbstractControl): { [key: string]: boolean } | null {
-    const regex = /^([0-9a-zA-Z]{8,}$)/;
+    const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
     if (control.value !== undefined && !regex.test(control.value)) {
         return { passwordRegexError: true };
     }

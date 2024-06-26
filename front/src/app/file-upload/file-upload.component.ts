@@ -7,6 +7,8 @@ import { UtilService } from '../services/util.service';
 import { LambdaService } from '../services/lambda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileService } from '../services/file.service';
+import { Router } from '@angular/router';
+import { fileDescriptionRegexValidator, fileNameRegexValidator } from '../validators/file/fileValidator';
 
 @Component({
   selector: 'app-file-upload',
@@ -16,8 +18,8 @@ import { FileService } from '../services/file.service';
 export class FileUploadComponent implements OnInit {
 
   form = new FormGroup({
-    name: new FormControl('', [Validators.required,]),
-    description: new FormControl('', [Validators.required,]),
+    name: new FormControl('', [Validators.required, fileNameRegexValidator]),
+    description: new FormControl('', [Validators.required, fileDescriptionRegexValidator]),
   }, [])
 
   tags: String[] = []
@@ -27,6 +29,7 @@ export class FileUploadComponent implements OnInit {
 
   constructor(private http: HttpClient, private utilService: UtilService,
     private fileService: FileService,
+    private router: Router,
     private snackBar: MatSnackBar) { }
 
   profileImgPath: string = "";
@@ -43,13 +46,19 @@ export class FileUploadComponent implements OnInit {
     if (event.target.files){
       var reader = new FileReader();
       this.file = event.target.files[0];
-      reader.readAsDataURL(this.file);
-      reader.onload=(e: any)=>{
-        this.profileImgPath = reader.result as string;
+      if (this.file.size/1024 > 5000){
+        this.snackBar.open("File is too big! Try again with smaller one!", "", {
+          duration: 2700, panelClass: ['snack-bar-back-error']
+        });
+      } else {
+        reader.readAsDataURL(this.file);
+        reader.onload=(e: any)=>{
+          this.profileImgPath = reader.result as string;
+        }
+        this.form.controls['name'].setValue(this.file.name);
+        this.size = Math.round(this.file.size/1024).toString() + 'kB';
+        this.right_part_visible = true;
       }
-      this.form.controls['name'].setValue(this.file.name);
-      this.size = Math.round(this.file.size/1024).toString() + 'kB';
-      this.right_part_visible = true;
     }
   }
 
@@ -90,6 +99,8 @@ export class FileUploadComponent implements OnInit {
   }
 
   createFile() {
+    if (!this.form.valid)
+      return;
     let o = {
       name: this.form.value.name,
       lastModified:  new Date().toISOString().split('T')[0],
@@ -107,6 +118,7 @@ export class FileUploadComponent implements OnInit {
         this.snackBar.open("Successfully created file!", "", {
           duration: 2700, panelClass: ['snack-bar-success']
         });
+        this.router.navigate(['/homepage']);
       },
       error: (err) => {
         console.log(err);

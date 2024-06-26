@@ -1,10 +1,28 @@
 package ftn.rbs.madagascar_hub.dtos;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+
 public class RegisterUserDTO {
+    @NotEmpty(message="is required")
+	@Pattern(regexp = "^([a-zA-Zčćđžš ]*)$", message="format is not valid")
     private String name;
+
+    @NotEmpty(message="is required")
+	@Pattern(regexp = "^([a-zA-Zčćđžš ]*)$", message="format is not valid")
     private String surname;
+
+    @NotEmpty(message="is required")
+    @Pattern(regexp = "^([0-9a-z]{3,}$)")
     private String username;
+    
+    @NotEmpty(message="is required")
+	@Email(message="format is not valid")
     private String email;
+
+    @NotEmpty(message="is required")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$")
     private String password;
 
     public RegisterUserDTO() {

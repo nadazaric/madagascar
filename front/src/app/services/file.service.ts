@@ -24,4 +24,60 @@ export class FileService {
     return this.http.post<any>(environment.apiHost + "/file", file, options);
   }
 
+  getFilesByUser(): Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.get<any>(environment.apiHost + "/file/user", options);
+  }
+
+  getSharedWith(): Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.get<any>(environment.apiHost + "/file/shared-with", options);
+  }
+
+  shareWithOther(acl: any): Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.post<any>(environment.apiHost + "/file/share", acl, options);
+  }
+
+  updateShareWith(acl: any): Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.put<any>(environment.apiHost + "/file/share", acl, options);
+  }
+
+  deleteShareWith(acl: any): Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.delete<any>(environment.apiHost + "/file/share", acl);
+  }
+
+}
+
+export interface FileDTO {
+  size: number;
+  createdAt: Date;
+  id: number;
+  lastModified: Date;
+  ownerId: number;
+  description: string;
+  name: string;
+}
+
+export interface ACLDTO {
+  user: string,
+  relation: string,
+  object: string
+}
+
+export interface SharedWithDTO {
+  user: string,
+  relation: string
 }
