@@ -5,7 +5,7 @@ public class AclDTO {
     private String relation;
     private String object;
     public AclDTO() {}
-    public AclDTO(String user, String filename, String role) {
+    public AclDTO(String user, String role, String filename) {
         this.user = user;
         this.relation = role;
         this.object = filename;

@@ -62,6 +62,7 @@ def get_config():
 @require_api_key
 def add_acl_entry():
     data = sanitize_input(request.json)
+    print(data)
 
     try:
         acl_entry = AclEntryDTO.from_dict(data)
