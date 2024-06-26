@@ -14,9 +14,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -48,20 +50,16 @@ public class AclService implements IAclService {
 
     private boolean doesUserExist(String username) {
         Optional<User> foundUser = allUsers.findByUsername(username);
-        if (foundUser.isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return foundUser.isPresent();
     }
     private boolean isRequesterOwner(File file) {
         Long loggedUserId = userService.getCurrentUser().getId();
-        return file.getOwner().getId() == loggedUserId;
+        return Objects.equals(file.getOwner().getId(), loggedUserId);
     }
 
     private void validateAclDto(FrontAclDTO dto, File file) {
         if (!isRequesterOwner(file) || !doesUserExist(dto.getUser()))
-            throw new RuntimeException("ACL not valid.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ACL not valid.");
     }
 
     private ResponseEntity<?> sendRequestToZanzibar(AclDTO dto, String endpoint, HttpMethod httpMethod) {
