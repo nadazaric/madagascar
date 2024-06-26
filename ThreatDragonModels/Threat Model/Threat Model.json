@@ -472,48 +472,6 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "#333333",
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": "block"
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "HTTP(s) Req/Res",
-              "description": "",
-              "outOfScope": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "isBidirectional": true,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": []
-            },
-            "id": "b449e67a-72bc-4657-859e-444a20d60c5d",
-            "labels": [
-              "HTTP(s) Req/Res"
-            ],
-            "source": {
-              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
-            },
-            "target": {
-              "cell": "0cfd7370-d4ea-45bc-b8af-137d83129258"
-            }
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
                 "stroke": "red",
                 "strokeWidth": 2.5,
                 "targetMarker": {
@@ -570,54 +528,6 @@
               {
                 "x": 700,
                 "y": 130
-              }
-            ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "#333333",
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": "block"
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "HTTP(s) Req/Res\n",
-              "description": "",
-              "outOfScope": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "isBidirectional": true,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": []
-            },
-            "id": "40c5fc25-905f-45f4-a905-b45d0d8c708d",
-            "labels": [
-              "HTTP(s) Req/Res\n"
-            ],
-            "source": {
-              "cell": "7e05e146-94be-47d6-9b14-408036ed684b"
-            },
-            "target": {
-              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
-            },
-            "vertices": [
-              {
-                "x": 960,
-                "y": 260
               }
             ]
           },
@@ -960,6 +870,126 @@
             ]
           },
           {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res\n",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "f60f3217-0b25-4649-9d9c-76fb3cf4da0e",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "40c5fc25-905f-45f4-a905-b45d0d8c708d",
+            "labels": [
+              "HTTP(s) Req/Res\n"
+            ],
+            "source": {
+              "cell": "7e05e146-94be-47d6-9b14-408036ed684b"
+            },
+            "target": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "vertices": [
+              {
+                "x": 960,
+                "y": 260
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP(s) Req/Res",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": true,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "7e75066c-8dfe-4cb1-807e-6914a4f6d2d0",
+                  "title": "Data flow should use HTTP/S",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "These responses are over the public internet and could be intercepted by an attacker (man in the middle attack).\n",
+                  "mitigation": "The requests should require HTTPS. This will provide confidentiality and integrity via TLS encryption. HTTP should not be supported.\n\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "b449e67a-72bc-4657-859e-444a20d60c5d",
+            "labels": [
+              "HTTP(s) Req/Res"
+            ],
+            "source": {
+              "cell": "bd36395b-d625-4806-9b6d-324c5adc0a51"
+            },
+            "target": {
+              "cell": "0cfd7370-d4ea-45bc-b8af-137d83129258"
+            }
+          },
+          {
             "position": {
               "x": 740,
               "y": 450
@@ -1046,6 +1076,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "",
-    "threatTop": 9
+    "threatTop": 11
   }
 }
