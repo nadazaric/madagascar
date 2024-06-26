@@ -544,54 +544,6 @@
             "connector": "smooth",
             "data": {
               "type": "tm.Flow",
-              "name": "Query",
-              "description": "",
-              "outOfScope": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "isBidirectional": false,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": []
-            },
-            "id": "d94d4d39-de6c-49bf-a492-ad95563df97e",
-            "labels": [
-              "Query"
-            ],
-            "source": {
-              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
-            },
-            "target": {
-              "cell": "9d03b5b6-26cf-4b26-8d01-00af2fb4f550"
-            },
-            "vertices": [
-              {
-                "x": 870,
-                "y": 410
-              }
-            ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "#333333",
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": ""
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
               "name": "Query result\n",
               "description": "",
               "outOfScope": false,
@@ -1072,6 +1024,70 @@
             ]
           },
           {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Query",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "660f7a8d-73bd-49d1-bb09-c0c40ee378dd",
+                  "title": "SQL Injection",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "An attacker could use various special characters and even code to retrieve sensitive data from DB.",
+                  "mitigation": "Don't use simple string concatenation for query building. Instead, use tools like Prepared Statements in Java.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 19,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "d94d4d39-de6c-49bf-a492-ad95563df97e",
+            "labels": [
+              "Query"
+            ],
+            "source": {
+              "cell": "679bd20e-8ba6-4344-950e-b7c5fd997ddb"
+            },
+            "target": {
+              "x": 960,
+              "y": 420
+            },
+            "vertices": [
+              {
+                "x": 870,
+                "y": 410
+              }
+            ]
+          },
+          {
             "position": {
               "x": 740,
               "y": 450
@@ -1174,6 +1190,6 @@
     ],
     "diagramTop": 1,
     "reviewer": "",
-    "threatTop": 18
+    "threatTop": 19
   }
 }
