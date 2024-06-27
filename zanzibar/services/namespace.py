@@ -16,8 +16,32 @@ def add(data):
     relations_dict = namespace_dict.get('relations', {})
     consul_value = json.dumps(relations_dict)
 
+    try:
+        n = get(consul_key)
+        if "version" in n:
+            consul_value["version"] = n["version"] + 1
+        else:
+            consul_value["version"] = 1
+        client.kv.put(consul_key+str(consul_value["version"]), consul_value)
+    except:
+        print("No versioning!")
+
     client.kv.put(consul_key, consul_value)
     get.cache_clear()
+
+def rollback(namespace):
+    n = get(namespace)
+    if n["version"] == 1:
+        return
+    try:
+        version_key = namespace + str(n['version']-1)
+        index, data = client.kv.get(version_key)
+        if not data:
+            return None
+        client.kv.put(namespace, data)
+    except Exception as e:
+        raise MadagascarException("Server error!")
+    
 
 @lru_cache(maxsize=3)
 def get(namespace) -> Dict[str, object]:
