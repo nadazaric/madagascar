@@ -18,11 +18,13 @@ def add(data):
 
     try:
         n = get(consul_key)
-        consul_value["version"] = n["version"] + 1
+        if "version" in n:
+            consul_value["version"] = n["version"] + 1
+        else:
+            consul_value["version"] = 1
         client.kv.put(consul_key+str(consul_value["version"]), consul_value)
     except:
-        consul_value["version"] = 1
-        client.kv.put(consul_key+str(consul_value["version"]), consul_value)
+        print("No versioning!")
 
     client.kv.put(consul_key, consul_value)
     get.cache_clear()
